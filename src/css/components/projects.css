@@ -1,0 +1,145 @@
+.title1 {
+  text-align: center;
+}
+
+.projects-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  justify-items: center;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.gallery-item {
+  width: 100%;
+  overflow: hidden;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  height: 400px;
+}
+
+.info {
+  display: grid;
+  justify-items: start;
+  color: white;
+  text-shadow: 0 0 1px black;
+  font-weight: 600;
+}
+
+.wrap-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.logo-info {
+  display: block;
+  width: 80px;
+  height: 80px;
+}
+
+.hoverInfo {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 40px;
+  align-items: center;
+  visibility: hidden;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  width: 25%;
+  height: 70%;
+  inset: 0;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.432) 1px,
+    transparent 0.5px
+  );
+  background-size: 20px 20px;
+  opacity: 0;
+  z-index: 2;
+}
+
+.gallery-item::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.link-project {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.card {
+  position: relative;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: calc(var(--y) - 40px);
+  left: calc(var(--x) - 40px);
+  /* background-color: rgba(255, 255, 255, 0.096); */
+  background-image: radial-gradient(
+    ellipse,
+    rgba(255, 255, 255, 0.884) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.gallery-item:hover::before {
+  background-color: rgba(0, 0, 0, 0.534);
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+.gallery-item:hover .hoverInfo {
+  visibility: visible;
+}
+
+.city-name {
+  position: relative;
+  z-index: 10;
+  color: bisque;
+}
