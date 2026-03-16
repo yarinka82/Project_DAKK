@@ -2,8 +2,19 @@ import { defineConfig } from "vite";
 import injectHTML from "vite-plugin-html-inject";
 import { resolve } from "path";
 
+const ROUTES = [
+  { match: ["/projects", "/en/projects"], file: "/projects.html" },
+  { match: ["/news", "/en/news"], file: "/news.html" },
+  { match: ["/videos", "/en/videos"], file: "/videos.html" },
+];
+
+const DYNAMIC_ROUTES = [
+  { prefix: ["/projects/", "/en/projects/"], file: "/project-single.html" },
+  { prefix: ["/news/", "/en/news/"], file: "/news-single.html" },
+];
+
 export default defineConfig({
-  plugins: [injectHTML()],
+  base: "/",
   build: {
     rollupOptions: {
       input: {
@@ -17,4 +28,33 @@ export default defineConfig({
       },
     },
   },
+  plugins: [
+    injectHTML(),
+    {
+      name: "spa-fallback",
+
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (!req.url) return next();
+          const pathname = req.url.split("?")[0].replace(/\/$/, "") || "/";
+
+          const staticRoute = ROUTES.find((r) => r.match.includes(pathname));
+          if (staticRoute) {
+            req.url = staticRoute.file;
+            return next();
+          }
+  
+          const dynamicRoute = DYNAMIC_ROUTES.find((r) =>
+            r.prefix.some((p) => pathname.startsWith(p)),
+          );
+          if (dynamicRoute) {
+            req.url = dynamicRoute.file;
+            return next();
+          }
+
+          next();
+        });
+      },
+    },
+  ],
 });

@@ -1,4 +1,23 @@
 <header>
+  <div class="container header-container">
+    <div class="langSwitch">
+      <button
+        @click="($store.locale.set('en'))"
+        :aria-label="t(projectsData.langSwitch) + ' EN'"
+        :title="t(projectsData.langSwitch) + ' EN'"
+      >
+        EN
+      </button>
+      <button
+        @click="($store.locale.set('uk'))"
+        :aria-label="t(projectsData.langSwitch) + ' UK'"
+        :title="t(projectsData.langSwitch) + ' UK'"
+      >
+        UA
+      </button>
+    </div>
+    <button>Menu</button>
+  </div>
   <load src="./menu.html" />
   <button>Menu</button>
 </header>
