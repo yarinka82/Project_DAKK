@@ -1,6 +1,6 @@
 /* 1. Global Reset & Variables */
-@import "./base/reset.css";
-@import "./base/variables.css";
+@import "./base/variables.css"; /* Variables first! */
+@import "./base/reset.css";     /* Then reset that uses them */
 
 /* 2. Layout Components */
 @import "./components/header.css";

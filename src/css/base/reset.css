@@ -1,0 +1,106 @@
+/* 1. Global Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Base Styles */
+body {
+  font-family: var(--font-main);
+  font-weight: var(--fw-regular); /* Inter Regular */
+  font-size: var(--fs-body);      /* 16px */
+  line-height: 1.6;               /* Relative ratio for better readability */
+  color: var(--clr-text-main);
+  background-color: var(--clr-bg-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Container System */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* Media Queries for Fixed Breakpoints */
+@media (min-width: 768px) {
+  .container {
+    max-width: 750px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: var(--container-width); /* 1200px */
+  }
+}
+
+/* 4. Headings Configuration (Montserrat) */
+h1 {
+  font-family: var(--font-headers);
+  font-weight: var(--fw-bold);    /* Montserrat Bold (700) */
+  font-size: var(--fs-h1);        /* 40px */
+  line-height: 48px;              /* Fixed height for precision */
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-family: var(--font-headers);
+  font-weight: var(--fw-semibold); /* Montserrat SemiBold (600) */
+  font-size: var(--fs-h2);         /* 32px */
+  line-height: 40px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-family: var(--font-headers);
+  font-weight: var(--fw-medium);   /* Montserrat Medium (500) */
+  font-size: var(--fs-h3);         /* 24px */
+  line-height: 32px;
+  margin-bottom: 16px;
+}
+
+/* 5. UI Elements & Buttons */
+.nav-link {
+  font-family: var(--font-main);
+  font-weight: var(--fw-inter-medium); /* Inter Medium (500) */
+  font-size: var(--fs-menu);           /* 15px */
+  text-decoration: none;
+  color: var(--clr-text-main);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background-color: var(--clr-accent);
+  color: var(--clr-white);
+  font-family: var(--font-main);
+  font-weight: var(--fw-inter-medium); /* Inter Medium for buttons */
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background-color: var(--clr-accent-hover);
+}
+
+/* 6. Specific Footer Styles */
+.footer {
+  background-color: var(--clr-bg-dark);
+  color: var(--clr-white);
+  padding: 60px 0; /* Vertical breathing room */
+}
+
+/* 7. Utilities */
+img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
