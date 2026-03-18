@@ -1,6 +1,6 @@
 /* 1. Global Reset & Variables */
 @import "./base/variables.css"; /* Variables first! */
-@import "./base/reset.css";     /* Then reset that uses them */
+@import "./base/reset.css"; /* Then reset that uses them */
 
 /* 2. Layout Components */
 @import "./components/header.css";
@@ -10,8 +10,6 @@
 /* 3. Content Sections */
 @import "./components/hero.css";
 @import "./components/contacts.css";
-@import "./components/hero.css";
-@import "./components/menu.css";
 @import "./components/news.css";
 @import "./components/project-single.css";
 @import "./components/projects.css";
