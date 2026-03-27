@@ -3,14 +3,21 @@ import injectHTML from "vite-plugin-html-inject";
 import { resolve } from "path";
 
 const ROUTES = [
+  { match: ["/", "/en"], file: "/index.html" },
   { match: ["/projects", "/en/projects"], file: "/projects.html" },
   { match: ["/news", "/en/news"], file: "/news.html" },
   { match: ["/videos", "/en/videos"], file: "/videos.html" },
+  { match: ["/about", "/en/about"], file: "/about.html" },
+  { match: ["/contacts", "/en/contacts"], file: "/contacts.html" },
 ];
 
 const DYNAMIC_ROUTES = [
-  { prefix: ["/projects/", "/en/projects/"], file: "/project-single.html" },
-  { prefix: ["/news/", "/en/news/"], file: "/news-single.html" },
+  {
+    segment: "projects",
+    depth2: "/projects-category.html",
+    depth3: "/project-single.html",
+  },
+  { segment: "news", depth2: "/news-single.html", depth3: null },
 ];
 
 export default defineConfig({
@@ -32,7 +39,6 @@ export default defineConfig({
     injectHTML(),
     {
       name: "spa-fallback",
-
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           if (!req.url) return next();
@@ -43,12 +49,16 @@ export default defineConfig({
             req.url = staticRoute.file;
             return next();
           }
-  
-          const dynamicRoute = DYNAMIC_ROUTES.find((r) =>
-            r.prefix.some((p) => pathname.startsWith(p)),
-          );
-          if (dynamicRoute) {
-            req.url = dynamicRoute.file;
+
+          const parts = pathname
+            .replace(/^\/en/, "")
+            .split("/")
+            .filter(Boolean);
+          const dynamic = DYNAMIC_ROUTES.find((r) => r.segment === parts[0]);
+
+          if (dynamic) {
+            if (parts.length === 2 && dynamic.depth2) req.url = dynamic.depth2;
+            if (parts.length === 3 && dynamic.depth3) req.url = dynamic.depth3;
             return next();
           }
 

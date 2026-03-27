@@ -13,7 +13,7 @@
 
     <title x-text="t(projectsData.titleHead)">
       Галерея проектів Дніпровської архітектурної конструкторської
-      компанії(ДАКК)
+      компанії(ДАКК) Сторінка категорії
     </title>
     <meta
       name="description"
@@ -23,26 +23,17 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body
-    data-page="projects"
+    data-page="projects-category"
     x-data="filters"
     x-init="$watch('$store.locale.current', () => init())"
   >
     <load src="./src/partials/header.html" />
-
     <main x-data="loadProjects">
       <load src="./src/partials/filters.html" />
 
-      <template x-if="mode === 'all'">
-        <load src="./src/partials/projects.html" />
-      </template>
-
-      <template x-if="mode === 'group'">
-        <load src="./src/partials/projects-group.html" />
-      </template>
-
+      <load src="./src/partials/projects.html" />
       <load src="./src/partials/leaflet.html" />
     </main>
-    <load src="./src/partials/footer.html" />
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

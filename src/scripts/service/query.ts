@@ -86,4 +86,44 @@ export const VIDEOS_QUERY = `{
  "total": count(*[_type == "video"]),
  }`;
 
-export const PARTNERS_QUERY = `*[type == "partners] | [$start...$end]`;
+export const PARTNERS_QUERY = `*[_type == "partners"] | [$start...$end]`;
+
+export const BASE_GROUP_BY_CATEGORY_PROJECTS_QUERY = `*[_type == "category"]{
+"name": coalesce(name[$locale], name.uk),
+"slug": slug.current, 
+"projects": *[_type == "project" && references(^._id)] | order($order)[0]{
+_id, "projectName": coalesce(projectName[$locale], projectName.uk),
+ "slug": slug.current,
+  status,
+  timeline,
+  area, 
+   city->{_id, "name": coalesce(name[$locale], name.uk), "slug": slug.current},
+ "cover": cover.asset->url,
+}  
+}`;
+
+export const CATEGORY_QUERY = `*[_type == "category"]
+ {"name": coalesce(name[$locale], name.uk),
+   "slug": slug.current
+ }`;
+
+export const LEAFLET_QUERY = `*[_type == 'project']{
+ "projectName": coalesce(projectName[$locale], projectName.uk),
+ "slug": slug.current,
+ category->{
+    _id,
+  "name": coalesce(name[$locale], name.uk),
+    "slug": slug.current
+  },
+ location
+}`;
+
+export const LEAFLET_SINGLE_QUERY = `*[_type == 'project' && slug.current == $slug][0]{
+ "projectName": coalesce(projectName[$locale], projectName.uk),
+ category->{
+  "name": coalesce(name[$locale], name.uk),
+    "slug": slug.current
+  },
+ "slug": slug.current,
+ location
+}`;

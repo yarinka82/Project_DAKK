@@ -17,7 +17,7 @@ export async function fetchData<T>({
   options?: Record<string, unknown>;
 }): Promise<T> {
   const locale = (Alpine.store("locale") as LocaleStore).current;
- 
+
   try {
     const response = await client.fetch(query, {
       ...options,

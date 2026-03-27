@@ -1,12 +1,17 @@
+import type { categorySlugs } from "../../data/category";
+import type { statusLang } from "../../data/dictionary/statusLang";
+
 export interface Timeline {
   yearStart?: number;
   yearEnd?: number;
 }
 
+export type CategorySlug = (typeof categorySlugs)[number];
+
 export interface Category {
   _id: string;
   name: string;
-  slug: string;
+  slug: CategorySlug;
 }
 
 export interface City {
@@ -52,6 +57,18 @@ interface Advantage {
   description: string;
 }
 
+export type Status = "concept" | "in-progress" | "completed";
+
+export type StatusLang = (typeof statusLang)[number]["key"];
+
+export type TypeOfServices =
+  | "Житлові комплекси"
+  | "Торговельні центри"
+  | "Бізнес-центри"
+  | "Освітні комплекси"
+  | "Промислове будівництво"
+  | "Укриття";
+
 export interface Project {
   _id: string;
   projectName: string;
@@ -62,8 +79,8 @@ export interface Project {
   location: Location;
   area: number;
   timeline: Timeline;
-  status: string;
-  typeOfServices: string[];
+  status: Status;
+  typeOfServices: TypeOfServices[];
   category: Category;
   constructive: string;
   consequenceClass: ConsequenceClass;
@@ -82,3 +99,5 @@ export interface Project {
   _createdAt?: Date;
   _rev?: string;
 }
+
+export type Mode = "all" | "group";
