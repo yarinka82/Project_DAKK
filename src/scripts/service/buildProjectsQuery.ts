@@ -1,30 +1,52 @@
 import type { Filter } from "./filters";
-import { BASE_PROJECTS_QUERY, PROJECTS_FIELDS } from "./query";
+import {
+  BASE_GROUP_BY_CATEGORY_PROJECTS_QUERY,
+  BASE_PROJECTS_QUERY,
+  PROJECTS_FIELDS,
+} from "./query";
 import { getStartEnd } from "../utils/getStartEnd";
+import { SORT_OPTIONS } from "../../data/sortOptions";
 
-export function buildProjectQuery(filters: Filter, page: number, perPage: number) {
-  const { search, category, status, city, order } = filters;
+export function buildProjectQuery(
+  filters: Partial<Filter>,
+  page: number,
+  perPage: number,
+) {
+  const { search, category, status, city, order, mode } = filters;
+  console.log("🚀 ~ buildProjectQuery ~ mode:", mode);
   const { start, end } = getStartEnd(page, perPage);
- const query = `
+  const locale = filters.locale || "uk";
+  const orderValue = SORT_OPTIONS[order || "newest"].replace("$locale", locale);
+  console.log("🚀 ~ buildProjectQuery ~ orderValue:", orderValue);
+  console.log("🚀 ~ loadProjects ~ category:", category);
+
+  if (mode === "group") {
+    const query = `{"category": ${BASE_GROUP_BY_CATEGORY_PROJECTS_QUERY}}`
+      .replace("$locale", locale)
+      .replace("$order", orderValue);
+    const options = { mode };
+    return { query, options };
+  } else {
+    const query = `
 {
   "projects": ${BASE_PROJECTS_QUERY}
-    | order(${order})
+    | order(${orderValue})
     [$start...$end]
     ${PROJECTS_FIELDS},
 
   "total": count(${BASE_PROJECTS_QUERY})
 }
 `;
+    const options = {
+      start,
+      end,
+      search: search,
+      category,
+      status,
+      city,
+      mode,
+    };
 
-  const options = {
-    start,
-    end,
-    search: search,
-    category,
-    status,
-    city,
-    order,
-  };
-
-  return { query, options };
+    return { query, options };
+  }
 }

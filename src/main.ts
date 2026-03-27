@@ -16,9 +16,10 @@ const routes: Record<string, () => Promise<PageModule>> = {
   map: () => import("./scripts/pages/map"),
   home: () => import("./scripts/pages/home"),
   news: () => import("./scripts/pages/news"),
-  // projects: () => import("./scripts/pages/projects"),
+  projects: () => import("./scripts/pages/leaflet"),
   video: () => import("./scripts/pages/video"),
   "project-single": () => import("./scripts/pages/project-single"),
+  "projects-category": () => import("./scripts/pages/projects-category"),
 };
 
 const page = document.body.dataset.page;
@@ -33,9 +34,9 @@ if (page && routes[page]) {
     });
 }
 
-Alpine.data("localization", () => localization());
-Alpine.data("filters", () => filtersProjects());
-Alpine.data("loadProjects", () => loadProjects(filtersProjects()));
+Alpine.data("localization", localization);
+Alpine.data("filters", filtersProjects);
+Alpine.data("loadProjects", () => loadProjects());
 
 Alpine.plugin(intersect);
 

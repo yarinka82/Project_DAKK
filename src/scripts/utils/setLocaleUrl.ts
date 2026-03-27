@@ -1,4 +1,5 @@
-import { DEFAULT_LANG, SUPPORTED_LANG, type Lang } from "../../data/lang";
+import { DEFAULT_LANG, SUPPORTED_LANG } from "../../data/lang";
+import { type Lang } from "../type/lang";
 
 export function setLocaleUrl(locale: Lang) {
   const path = window.location.pathname.split("/").filter(Boolean);
