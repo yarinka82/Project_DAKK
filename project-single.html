@@ -107,7 +107,7 @@
 
               <div class="pdf-link">
                 <a x-show="project.linkDocuments" :href="project.linkDocuments" target="_blank" alt="">
-                  <img src="../public/images/pdf_icon.jpg" width="30px" />
+                  <img src="/images/pdf_icon.jpg" width="30px" />
                   <span>Паспорт об'єкта</span>
                 </a>
               </div>
@@ -124,27 +124,40 @@
           </section>
         </div>
 
-
-        <div class="container container-100 light-grey" x-show="project?.siteUrl || project?.photo">
+        <!--Web and Gallery-->
+        <div class="container container-100 light-grey" x-show="project?.siteUrl || project?.photo?.length">
           <section class="website p-40-50">
             <a x-show="project?.siteUrl" :href="project.siteUrl">
               Перейти на сайт: <span x-text="project.siteUrl"></span>
             </a>
+
             <!-- Gallery -->
-            <template x-if="project?.photo?.length">
-              <section class="gallery">
-                <template x-for="img in project.photo">
-                  <img class="thumbnail" :src="img" @click="openImage(img)" />
-                </template>
 
-                <template x-if="activeImage">
-                  <div class="modal" @click="closeImage()">
-                    <img :src="activeImage" />
-                  </div>
-                </template>
 
-              </section>
-            </template>
+            <section class="gallery" x-show="project?.photo?.length">
+              <div class="gallery-wrapper">
+                <button @click="galleryData.prev()" class="arrow left" x-show="project?.photo?.length > 1 && galleryData?.activeIndex !== 0">&lt;</button>
+
+                <div class="gallery-track" x-ref="track">
+                  <template x-for="(img, index) in galleryData.photos" :key="index">
+                    <img class="thumbnail" :src="img" :class="{'active': index === galleryData.activeIndex}"
+                      @click="galleryData.openModal(img)" />
+                  </template>
+                </div>
+
+                <button @click="galleryData.next()" class="arrow right"
+                  x-show="project?.photo?.length > 1 && galleryData?.activeIndex < (project?.photo?.length -1)">&gt;</button>
+              </div>
+
+              <template x-if="galleryData.activeImage">
+                <div class="modal" @click="galleryData.closeModal()">
+                  <img :src="galleryData.activeImage" />
+                </div>
+              </template>
+
+            </section>
+
+
           </section>
         </div>
 
@@ -169,8 +182,8 @@
         </template>
     </section>
 
-    
-      <load src="./src/partials/leaflet.html" />
+
+    <load src="./src/partials/leaflet.html" />
 
   </main>
 
