@@ -8,3 +8,20 @@ export interface New {
   _id: string;
   _updatedAt: string;
 }
+
+export interface NewsStore {
+  items: Publication[] | [];
+  currentItem: number | null;
+  isPublicationOpened: boolean;
+  isLoading: boolean;
+  getNews: () => [];
+  setNews: ([]) => void;
+}
+
+export interface Publication {
+  id: number;
+  title: string;
+  description: string;
+  logoSm: string;
+  logoXl: string;
+}

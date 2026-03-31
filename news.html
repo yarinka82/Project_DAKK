@@ -8,13 +8,8 @@
   <body data-page="news">
     <load src="./src/partials/header.html" />
     <main>
-      <section class="section-news">
-        <div x-data x-show="$store.news.isPublicationOpened">
-          <load src="./src/partials/news-single.html" />
-        </div>
-        <div x-data x-show="!$store.news.isPublicationOpened">
-          <load src="./src/partials/news.html" />
-        </div>
+      <section x-init class="section-news">
+        <load src="./src/partials/news.html" />
       </section>
     </main>
     <load src="./src/partials/footer.html" />

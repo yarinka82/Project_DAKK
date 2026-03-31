@@ -9,27 +9,12 @@ import { setLocaleUrl } from "./scripts/utils/setLocaleUrl";
 import intersect from "@alpinejs/intersect";
 import type { Lang, LocaleStore } from "./scripts/type/lang";
 import { renderMenu } from "./scripts/core/menu";
-import { newsTmpData } from "./data/news/news-tmp";
+import type { NewsStore } from "./scripts/type/news";
+import { init as initNews } from "./scripts/pages/news";
+import { descriptionCutting as cutTextFn } from "./scripts/pages/news";
 
 interface PageModule {
   init: () => void;
-}
-
-interface NewsStore {
-  items: Publication[];
-  currentItem: number | null;
-  isPublicationOpened: boolean;
-  isLoading: boolean;
-  getNews: () => [];
-  setNews: ([]) => void;
-}
-
-interface Publication {
-  id: number;
-  title: string;
-  description: string;
-  logoSm: string;
-  logoXl: string;
 }
 
 const routes: Record<string, () => Promise<PageModule>> = {
@@ -72,7 +57,7 @@ Alpine.store("locale", {
 window.Alpine = Alpine;
 
 Alpine.store("news", {
-  items: [...newsTmpData],
+  items: [],
   currentItem: null,
   isPublicationOpened: false,
   isLoading: false,
@@ -84,5 +69,10 @@ Alpine.store("news", {
     this.items = [...newsArr];
   },
 } as NewsStore);
+
+Alpine.data("news", () => ({
+  init: initNews,
+  descriptionCutting: cutTextFn,
+}));
 
 Alpine.start();
