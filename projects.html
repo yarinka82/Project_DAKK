@@ -1,61 +1,52 @@
 <!doctype html>
-<html :lang="$store.locale.current" x-data="localization">
+<html lang="uk" :lang="$store.locale.current" x-data="localization">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title x-text="t(projectsData.titleHead)"></title>
-    <meta name="description" x-bind:content="t(projectsData.descriptionHead)" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title x-text="t(projectsData.titleHead)">
+      Галерея проектів Дніпровської архітектурної конструкторської
+      компанії(ДАКК)
+    </title>
+    <meta
+      name="description"
+      :content="t(projectsData.descriptionHead)"
+      content="Ознайомтесь із галереєю проектів ДАКК. Від концептуальних ідей до реалізованих будівель — сучасна архітектура з увагою до деталей. Відкрийте галерею ДАКК і ви знайдете проекти різного спрямування: від укриття та житлових комплексів до промислового будівництва, освітніх та бізнес-центрів. Використовуйте пошук і категорії для швидкого доступу до потрібних проектів."
+    />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
-  <body data-page="projects">
+  <body
+    data-page="projects"
+    x-data="filters"
+    x-init="$watch('$store.locale.current', () => init())"
+  >
     <load src="./src/partials/header.html" />
 
-    <main>
-      <h1 x-text="t(projectsData.title)" class="title1"></h1>
-      <section id="filter">
-        <div class="container"></div>
+    <main x-data="loadProjects">
+      <section id="filter" x-data="{open: false, show: false}">
+        <load src="./src/partials/filters.html" />
       </section>
-      <section
-        id="projects"
-        x-data="loadProjects"
-        x-init="$watch('$store.locale.current', () => init())"
-      >
-        <div class="container">
-          <ul class="projects-gallery">
-            <template x-for="item in projects" :key="item._id">
-              <li class="gallery-item">
-                <article class="card">
-                  <a :href="`/projects/${item.slug}`" class="link-project"> </a>
-                  <img :src="item.cover" :alt="item.projectName" class="img" />
-                  <div class="hoverInfo">
-                    <img src="/public/images/logo.webp" class="logo-info" />
-                    <div class="info">
-                      <h2 x-text="item.projectName"></h2>
-                      <h3 x-text="item.category?.name"></h3>
-                      <div class="wrap-info">
-                        <a
-                          class="city-name"
-                          :href="`/city/${item.city?.slug}`"
-                          x-text="item.city?.name"
-                        ></a>
-                        <p
-                          x-text="item.timeline? (item.timeline.yearStart && item.timeline.yearEnd ? (item.timeline.yearStart + '-'+ item.timeline.yearEnd) :  (item.timeline.yearStart ?? item.timeline.yearEnd)) : ''"
-                        ></p>
-                      </div>
-                      <p x-text="item.area + ' м2'"></p>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            </template>
-          </ul>
-        </div>
-        <div x-intersect="hasMore && load()" class="loader">
-          <span x-show="isLoading && hasMore">...Loading. Please wait</span>
-        </div>
-      </section>
+
+      <template x-if="mode === 'all'">
+        <section id="projects">
+          <load src="./src/partials/projects.html" />
+        </section>
+      </template>
+
+      <template x-if="mode === 'group'">
+        <load src="./src/partials/projects-group.html" />
+      </template>
+
+      <load src="./src/partials/leaflet.html" />
     </main>
     <load src="./src/partials/footer.html" />
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

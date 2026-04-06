@@ -29,7 +29,7 @@ const routes: Record<string, () => Promise<PageModule>> = {
   map: () => import("./scripts/pages/map"),
   home: () => import("./scripts/pages/home"),
   news: () => import("./scripts/pages/news"),
-  // projects: () => import("./scripts/pages/projects"),
+  projects: () => import("./scripts/pages/leaflet"),
   video: () => import("./scripts/pages/video"),
   "project-single": () => import("./scripts/pages/project-single"),
 };
@@ -46,11 +46,13 @@ if (page && routes[page]) {
     });
 }
 
-Alpine.data("localization", () => localization());
-Alpine.data("filters", () => filtersProjects());
-Alpine.data("loadProjects", () => loadProjects(filtersProjects()));
+Alpine.data("localization", localization);
+Alpine.data("filters", filtersProjects);
+Alpine.data("loadProjects", () => loadProjects());
 Alpine.data("loadSingleProject", () => loadSingleProject());
 Alpine.data("renderMenu", renderMenu);
+Alpine.data("pageCategoryProject", () => pageCategoryProject());
+Alpine.data("projectsPrev", projectsPrev);
 
 Alpine.plugin(intersect);
 
@@ -61,6 +63,19 @@ Alpine.store("locale", {
     ((this.current = locale), setLocaleUrl(locale));
   },
 } as LocaleStore);
+
+document.addEventListener("alpine:init", () => {
+  Alpine.store("categories", {
+    list: [],
+    isReady: false,
+
+    async init() {
+      if (this.isReady) return;
+      this.list = await getCategories();
+      this.isReady = true;
+    },
+  } as CategoriesStore);
+});
 
 window.Alpine = Alpine;
 

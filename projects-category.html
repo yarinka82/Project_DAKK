@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="uk" :lang="$store.locale.current" x-data="localization">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title x-text="t(projectsData.titleHead)">
+      Галерея проектів Дніпровської архітектурної конструкторської
+      компанії(ДАКК) Сторінка категорії
+    </title>
+    <meta
+      name="description"
+      :content="t(projectsData.descriptionHead)"
+      content="Ознайомтесь із галереєю проектів ДАКК. Від концептуальних ідей до реалізованих будівель — сучасна архітектура з увагою до деталей. Відкрийте галерею ДАКК і ви знайдете проекти різного спрямування: від укриття та житлових комплексів до промислового будівництва, освітніх та бізнес-центрів. Використовуйте пошук і категорії для швидкого доступу до потрібних проектів."
+    />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body data-page="projects-category" x-data="pageCategoryProject()">
+    <template x-if="isReady && !is404">
+      <fragment>
+        <load src="./src/partials/header.html" />
+        <main
+          x-data="filters"
+          x-init="$watch('$store.locale.current', () => init())"
+        >
+          <section id="filter" x-data="{open: false, show: false}">
+            <load src="./src/partials/filters.html" />
+          </section>
+          <section id="projects" x-data="loadProjects">
+            <load src="./src/partials/projects.html" />
+          </section>
+          <load src="./src/partials/leaflet.html" />
+        </main>
+        <load src="./src/partials/footer.html" />
+      </fragment>
+    </template>
+    <template x-if="isReady && is404">
+      <load src="./src/partials/404.html" />
+      <load src="./src/partials/leaflet.html" />
+    </template>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
