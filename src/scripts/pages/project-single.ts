@@ -3,6 +3,7 @@ import { PROJECT_QUERY } from "../service/query";
 import type { Project } from "../type/project";
 import { leaflet } from "./leaflet";
 import { getPartsPath } from "../utils/getPartsPath";
+import { psGallery } from "../utils/psGallery";
 
 export function init() {
   const data = getPartsPath();
@@ -15,36 +16,33 @@ export function init() {
   }
 }
 
-type ActiveImage = string | null;
-
 export function loadSingleProject() {
   return {
     project: null as Partial<Project> | null,
     isLoading: false,
 
     //For Gallery
-    activeImage: null as ActiveImage,
+    galleryData: psGallery(),
 
-    openImage(img: string) {
-      this.activeImage = img;
-    },
-
-    closeImage() {
-      this.activeImage = null;
-    },
 
     async init() {
       this.reset();
       if (this.isLoading) return;
       await this.load();
+
+      if (this.project?.photo?.length) {
+        this.galleryData.setPhotos(this.project.photo);
+        console.log("photos:", this.project?.photo);
+      }
     },
+
+
+
+
 
     async load() {
       if (this.isLoading) return;
       this.isLoading = true;
-
-      // test
-      /*  const slug = "central-park"; */
 
       //real
       // const slug = window.location.pathname.split("/").pop();
@@ -69,6 +67,7 @@ export function loadSingleProject() {
     reset() {
       this.project = null;
       this.isLoading = false;
+      this.galleryData = psGallery();
     },
   };
 }
