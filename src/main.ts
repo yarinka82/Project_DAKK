@@ -20,6 +20,10 @@ import {
   newsStore,
   cutTextFn,
 } from "./scripts/pages/news";
+import { pageCategoryProject } from "./scripts/pages/projects-category";
+import { projectsPrev } from "./scripts/pages/projects-preview";
+import { getCategories } from "./scripts/service/getCategories";
+import type { CategoriesStore } from "./scripts/type/project";
 
 interface PageModule {
   init: () => void;
