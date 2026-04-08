@@ -4,7 +4,10 @@ import { resolve } from "path";
 
 const ROUTES = [
   { match: ["/", "/en"], file: "/index.html" },
-  { match: ["/projects", "/en/projects"], file: "/projects.html" },
+  {
+    match: ["/projects", "/en/projects", "/en/projects/"],
+    file: "/projects.html",
+  },
   { match: ["/news", "/en/news"], file: "/news.html" },
   { match: ["/videos", "/en/videos"], file: "/videos.html" },
   { match: ["/about", "/en/about"], file: "/about.html" },
@@ -29,7 +32,9 @@ export default defineConfig({
         about: resolve(__dirname, "about.html"),
         projects: resolve(__dirname, "projects.html"),
         "project-single": resolve(__dirname, "project-single.html"),
+        "projects-category": resolve(__dirname, "projects-category.html"),
         news: resolve(__dirname, "news.html"),
+        "news-single": resolve(__dirname, "news-single.html"),
         videos: resolve(__dirname, "videos.html"),
         contacts: resolve(__dirname, "contacts.html"),
       },

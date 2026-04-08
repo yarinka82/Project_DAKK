@@ -1,19 +1,16 @@
+import Alpine from "alpinejs";
 import { fetchData } from "../core/api";
 import { PROJECT_QUERY } from "../service/query";
 import type { Project } from "../type/project";
-import { leaflet } from "./leaflet";
 import { getPartsPath } from "../utils/getPartsPath";
+import { projectsPrev } from "./projects-preview";
 
 export function init() {
-  const data = getPartsPath();
-  if (!data?.slug) {
-    document.body.innerHTML =
-      "<h1 style='text-align:center'>404 — Нічого не знайдено</h1>";
-    return;
-  } else {
-    leaflet(data.slug);
-  }
+  Alpine.data("loadSingleProject", () => loadSingleProject());
+  Alpine.data("projectsPrev", projectsPrev);
 }
+
+type ActiveImage = string | null;
 
 export function loadSingleProject() {
   return {
@@ -21,7 +18,7 @@ export function loadSingleProject() {
     isLoading: false,
 
     //For Gallery
-    activeImage: null,
+    activeImage: null as ActiveImage,
 
     openImage(img: string) {
       this.activeImage = img;

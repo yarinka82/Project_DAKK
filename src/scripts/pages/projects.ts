@@ -1,8 +1,9 @@
 import { fetchData } from "../core/api";
-import { type Filter } from "../service/filters";
+import { filtersProjects, type Filter } from "../service/filters";
 import type { CategorySlug, Project } from "../type/project";
 import { buildProjectQuery } from "../service/buildProjectsQuery";
 import { animationEnter, waitTransition } from "../core/animations";
+import Alpine from "alpinejs";
 
 type CategoryGroup = {
   name: string;
@@ -25,6 +26,11 @@ interface LoadProjects {
   reload: () => void;
   reset: () => void;
   init: () => void;
+}
+
+export function init() {
+  Alpine.data("filters", filtersProjects);
+  Alpine.data("loadProjects", () => loadProjects());
 }
 
 export function loadProjects(): LoadProjects {
@@ -61,15 +67,14 @@ export function loadProjects(): LoadProjects {
         });
 
         await waitTransition(items[0]);
+        this.reset();
+        await this.load();
+        await new Promise((r) => requestAnimationFrame(r));
+        animationEnter();
+      } else {
+        await this.load();
+        this.isFirstLoad = false;
       }
-
-      this.reset();
-      await this.load();
-      this.isFirstLoad = false;
-
-      await new Promise((r) => requestAnimationFrame(r));
-
-      animationEnter();
     },
 
     async load() {

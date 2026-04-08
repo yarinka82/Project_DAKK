@@ -3,7 +3,14 @@ import { localization } from "../core/localization.ts";
 import { getPartsPath } from "../utils/getPartsPath.ts";
 import { redirect } from "../utils/redirect.ts";
 import type { CategoriesStore } from "../type/project.ts";
-import { init as leaflet } from "./leaflet.ts";
+import { filtersProjects } from "../service/filters.ts";
+import { loadProjects } from "./projects.ts";
+
+export function init() {
+  Alpine.data("filters", filtersProjects);
+  Alpine.data("loadProjects", () => loadProjects());
+  Alpine.data("pageCategoryProject", () => pageCategoryProject());
+}
 
 export function pageCategoryProject() {
   return {
@@ -26,7 +33,6 @@ export function pageCategoryProject() {
         redirect({ url, time: 5 });
       } else {
         this.isReady = true;
-        queueMicrotask(() => leaflet());
       }
     },
   };
