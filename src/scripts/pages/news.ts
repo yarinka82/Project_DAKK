@@ -38,7 +38,7 @@ export const newsStore: NewsStore = {
 export function init() {
   const newsStore = Alpine.store("news") as NewsStore;
   newsStore.isLoading = false;
-  console.log("Initializing request...");
+
   fetchData({
     query: NEWS_QUERY,
     options: {
@@ -72,5 +72,7 @@ export function setPublication(id: string) {
 }
 
 export function scrollToTopOfPublication(): void {
-  newsSectionEl?.scrollIntoView({ behavior: "smooth", block: "start" });
+  setTimeout(() => {
+    newsSectionEl?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 1);
 }
