@@ -71,6 +71,8 @@ function setupPopup() {
     popup.classList.remove("is-open");
   }
 
+  //todo this fuunction 
+
   overlay.addEventListener("click", closePopup);
   closeBtn.addEventListener("click", closePopup);
 
