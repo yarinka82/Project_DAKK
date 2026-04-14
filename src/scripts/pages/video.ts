@@ -72,6 +72,7 @@ function setupPopup() {
   }
 
   //todo this fuunction 
+  
 
   overlay.addEventListener("click", closePopup);
   closeBtn.addEventListener("click", closePopup);
