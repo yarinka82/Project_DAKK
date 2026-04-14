@@ -8,7 +8,25 @@
   <body data-page="video">
     <load src="./src/partials/header.html" />
     <main>
-      <h1>Welcome to the Videos</h1>
+      <section class="videos">
+        <div class="container">
+          <h1>Відео</h1>
+
+
+          <div class="videos__grid" id="videos-list"></div>
+
+        </div>
+      </section>
+
+      <!-- Попап — прихований поки не клікнути -->
+      <div class="video-popup" id="video-popup">
+        <div class="video-popup__overlay" id="popup-close"></div>
+        <div class="video-popup__inner">
+          <button class="video-popup__close" id="popup-close-btn">✕</button>
+          <video class="video-popup__player" id="popup-player" controls></video>
+        </div>
+      </div>
+
     </main>
     <load src="./src/partials/footer.html" />
     <script type="module" src="/src/main.ts"></script>

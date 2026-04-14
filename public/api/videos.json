@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "1",
+    "slug": "video-1",
+    "title": "Відео перше",
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "cover": "",
+    "publishedAt": "2024-01-01"
+  },
+  {
+    "_id": "2",
+    "slug": "video-2",
+    "title": "Відео друге",
+    "videoUrl": "https://www.w3schools.com/html/mov_bbb.mp4",
+    "cover": "",
+    "publishedAt": "2024-02-01"
+  }
+]
