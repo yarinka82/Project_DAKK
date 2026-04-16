@@ -24,6 +24,8 @@ import { pageCategoryProject } from "./scripts/pages/projects-category";
 import { projectsPrev } from "./scripts/pages/projects-preview";
 import { getCategories } from "./scripts/service/getCategories";
 import type { CategoriesStore } from "./scripts/type/project";
+import { init as initVideos, videoStore } from "./scripts/pages/video";
+import type { VideoStore } from "./scripts/type/video";
 
 interface PageModule {
   init: () => void;
@@ -91,6 +93,12 @@ Alpine.data("news", () => ({
   setPublication,
   getPost,
   resetPost,
+}));
+
+Alpine.store("videos", videoStore as VideoStore);
+
+Alpine.data("videos", () => ({
+  init: initVideos,
 }));
 
 Alpine.start();

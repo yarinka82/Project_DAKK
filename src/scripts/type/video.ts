@@ -8,3 +8,11 @@ export interface Video {
   _id: string;
   _updatedAt?: string;
 }
+
+export interface VideoStore {
+  items: Video[] | [];
+  isItemOpened: boolean;
+  openedItemId: string | null;
+
+  getVideos: () => Video[] | [];
+}

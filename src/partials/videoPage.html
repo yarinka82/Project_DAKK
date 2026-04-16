@@ -1,0 +1,18 @@
+<div>
+  <h2>Наші проекти</h2>
+  <ul>
+    <template
+      x-data="videos"
+      x-for="data in $store.videos.items"
+      :key="data._id"
+    >
+      <li>
+        <button type="button" @click="console.log(data._id)">
+          <article>
+            <img :src="data.cover" :alt="data.title" width="300" />
+          </article>
+        </button>
+      </li>
+    </template>
+  </ul>
+</div>
