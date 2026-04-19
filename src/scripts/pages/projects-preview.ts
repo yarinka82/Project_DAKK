@@ -24,7 +24,7 @@ export function projectsPrev() {
           "change",
           (e: MediaQueryListEvent) => {
             this.updateVisible(e.matches);
-          },
+          }
         );
       });
     },
@@ -52,13 +52,19 @@ export function projectsPrev() {
       items.forEach((el) => el.classList.add("next"));
       await Alpine.nextTick();
 
-      await new Promise<void>((resolve) =>
-        items[0]?.addEventListener("transitionend", () => resolve(), {
-          once: true,
-        }),
-      );
+      await Promise.race([
+        new Promise<void>((resolve) =>
+          items[0]?.addEventListener("transitionend", () => resolve(), {
+            once: true,
+          })
+        ),
+        new Promise((resolve) => setTimeout(resolve, 350)),
+      ]);
 
+      await Alpine.nextTick();
       this.visible.shift();
+      await Alpine.nextTick();
+      this.updateVisible();
       items.forEach((el) => el.classList.remove("next"));
     },
 
@@ -77,7 +83,7 @@ export function projectsPrev() {
       await new Promise<void>((resolve) =>
         items[0]?.addEventListener("transitionend", () => resolve(), {
           once: true,
-        }),
+        })
       );
 
       items.forEach((el) => el.classList.remove("prev"));

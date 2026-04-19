@@ -75,10 +75,22 @@
       >
     </div>
   </div>
-
-  <h2 class="title-group" x-show="mode=== 'group'">
-    На даній сторінці представлено показ категорій
-  </h2>
+  <div class="groupWrap">
+    <h2
+      class="title-group"
+      x-show="mode=== 'group'"
+      x-text="t(projectsData.titleGroup)"
+    >
+      Категорії проектів
+    </h2>
+    <p
+      class="text-group"
+      x-show="mode=== 'group'"
+      x-text="t(projectsData.textGroup)"
+    >
+      Оберіть категорію, щоб переглянути відповідні проєкти.
+    </p>
+  </div>
 
   <!-- <template x-if="mode!== 'group'"> -->
   <div class="statWrap" x-data="{open: false}" x-show="mode!== 'group'">

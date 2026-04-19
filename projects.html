@@ -46,6 +46,10 @@
         <load src="/src/partials/filters.html" />
       </section>
 
+      <template x-if="$store.projects.error">
+        <p x-text="$store.projects.error" class="error"></p>
+      </template>
+
       <template x-if="mode === 'all'">
         <section id="projects" x-cloak>
           <load src="/src/partials/projects.html" />
@@ -54,7 +58,7 @@
 
       <template x-if="mode === 'group'">
         <load src="/src/partials/projects-group.html" /> </template
-      >\
+      >
       <template x-if="!$store.projects.isLoading && projects.length>0">
         <load src="/src/partials/leaflet.html" />
       </template>

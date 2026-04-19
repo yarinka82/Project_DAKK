@@ -1,5 +1,5 @@
 <div class="container container-gallery">
-  <template x-if="filtered.length===0 && !$store.projects.isLoading">
+  <template x-if="filtered.length===0 && !$store.projects.isLoading && !$store.projects.error">
     <p class="not-projects" x-text="t(projectsData.notFound)">
       На жаль за Вашим запитом не знайшлося проектів. Спроуйте повторити пошук з
       іншими параметрами

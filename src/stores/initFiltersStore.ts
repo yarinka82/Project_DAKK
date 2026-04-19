@@ -1,11 +1,11 @@
 import Alpine from "alpinejs";
 import { getLocaleFromURL } from "../scripts/utils/getLocaleFromURL";
-import { fetchData } from "../scripts/core/api";
-import { CATEGORY_QUERY } from "../scripts/service/query";
-import type { Categories, FiltersStore } from "../scripts/type/filters";
+import type { CategoriesStore, FiltersStore } from "../scripts/type/filters";
 import { getPartsPath } from "../scripts/utils/getPartsPath";
 import type { CategorySlug } from "../scripts/type/project";
 import { SORT_OPTIONS, type SortKey } from "../data/sortOptions";
+
+let initPromise: Promise<void> | null = null;
 
 export function initFiltersStore() {
   Alpine.store<"filters">("filters", {
@@ -19,13 +19,15 @@ export function initFiltersStore() {
     categories: [],
 
     async init() {
-      const result = await fetchData<Categories[]>({
-        query: CATEGORY_QUERY,
-        options: { locale: this.locale },
-      });
+      if (initPromise) return initPromise;
 
-      this.categories = result;
-      this.paramsFromUrl();
+      initPromise = (async () => {
+        const store = Alpine.store("categories") as CategoriesStore;
+        this.categories = await store.init();
+        this.paramsFromUrl();
+        initPromise = null;
+      })();
+      return initPromise;
     },
 
     isActive(item) {
@@ -55,13 +57,16 @@ export function initFiltersStore() {
 
       const { category: categoryFromUrl } = getPartsPath();
 
-      if (categoryFromUrl) {
+      if (
+        categoryFromUrl &&
+        this.categories.find((c) => c.slug === categoryFromUrl)
+      ) {
         this.category = categoryFromUrl as CategorySlug;
         this.mode = "all";
       } else {
         this.category = null;
       }
-
+      
       const orderFromParams = params.get("order");
       if (orderFromParams && orderFromParams in SORT_OPTIONS) {
         this.order = orderFromParams as SortKey;

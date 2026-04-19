@@ -115,4 +115,12 @@ export const projectsData = {
     uk: "Ознайомтесь із галереєю проектів ДАКК. Від концептуальних ідей до реалізованих будівель — сучасна архітектура з увагою до деталей. На даній сторінці ви знайдете проекти в категорії ",
     en: "Explore the project gallery of Dnipro Architectural Design Company (DAKK). From conceptual ideas to completed buildings — modern architecture with attention to detail. On this page you will find projects in the category",
   },
+  titleGroup: {
+    uk: "Категорії проектів",
+    en: "Project Categories"
+  },
+  textGroup: {
+    uk: "Оберіть категорію, щоб переглянути відповідні проєкти.",
+    en: "Select a category to view relevant projects."
+  }
 };

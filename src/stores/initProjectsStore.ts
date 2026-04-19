@@ -2,6 +2,8 @@ import Alpine from "alpinejs";
 import { getProjects } from "../scripts/service/getProjects";
 import type { ProjectsStore } from "../scripts/type/project";
 
+let initPromise: Promise<any[]> | null = null;
+
 export function initProjectsStore() {
   Alpine.store<"projects">("projects", {
     projects: [],
@@ -9,21 +11,29 @@ export function initProjectsStore() {
     isLoading: false,
     error: null,
 
-    async init(forse = false) {
-      if (!forse && (this.isReady || this.isLoading)) return;
-      this.isLoading = true;
+    async init(force = false) {
+      if (!force && (this.isReady || this.isLoading)) return this.projects;
 
-      try {
-        this.projects = await getProjects();
-        this.isReady = true;
-      } catch (error) {
-        if (error instanceof Error) {
-          this.error = error.message;
+      if (!force && initPromise) return initPromise;
+
+      initPromise = (async () => {
+        this.isLoading = true;
+        try {
+          const data = await getProjects();
+
+          this.projects = data;
+          this.isReady = true;
+          return data;
+        } catch (error) {
+          this.error = (error as Error).message;
+          return [];
+        } finally {
+          this.isLoading = false;
+          initPromise = null;
         }
-        this.error = "Unknown error";
-      } finally {
-        this.isLoading = false;
-      }
+      })();
+
+      return initPromise;
     },
   } satisfies ProjectsStore);
 }

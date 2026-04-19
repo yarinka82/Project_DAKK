@@ -11,50 +11,54 @@ import { initFiltersStore } from "../../stores/initFiltersStore.ts";
 
 export function init() {
   initCategoriesStore();
-  initProjectsStore();
   initFiltersStore();
-  Alpine.data("leaflet", leaflet);
-  Alpine.data("loadProjects", () => loadProjects());
+  initProjectsStore();
   Alpine.data("pageCategoryProject", () => pageCategoryProject());
+  Alpine.data("loadProjects", () => loadProjects());
+  Alpine.data("leaflet", leaflet);
 }
+
+let initPromise: Promise<void>;
 
 export function pageCategoryProject() {
   return {
-    isReady: false,
     is404: false,
     category: undefined as Categories | undefined,
 
     async init() {
-      const { category } = getPartsPath();
-      const locale = localization();
-      const store = await (Alpine.store("categories") as CategoriesStore);
+      if (initPromise) return initPromise;
 
-      Alpine.effect(() => {
-        if (!store.isReady) return;
+      initPromise = (async () => {
+        const { category } = getPartsPath();
+        const locale = localization();
+        const list = await (
+          Alpine.store("categories") as CategoriesStore
+        ).init();
+        const found = list.find((c) => c.slug === category);
 
-        const isValid = store.list.some((c) => c.slug === category);
-
-        if (!isValid) {
+        if (!found) {
           this.is404 = true;
-          this.isReady = true;
           const url = `${locale.l("/projects")}`;
-
           redirect({ url, time: 5 });
         } else {
-          this.isReady = true;
-          this.category = store.list.find((c) => c.slug === category);
+          this.category = found;
           this.setSeo();
         }
-      });
+      })();
+      return initPromise;
     },
 
     setSeo() {
       const locale = localization();
-      document.title = `${locale.t(locale.projectsData.titleHead)} ${locale.t(locale.projectsData.page)} — ${this.category?.name}`;
+      document.title = `${locale.t(locale.projectsData.titleHead)} ${locale.t(
+        locale.projectsData.page
+      )} — ${this.category?.name}`;
 
       const meta = document.querySelector('meta[name="description"]');
       const description = this.category
-        ? `${locale.t(locale.projectsData.descriptionHeadCategories)} — ${this.category.name}`
+        ? `${locale.t(locale.projectsData.descriptionHeadCategories)} — ${
+            this.category.name
+          }`
         : locale.t(locale.projectsData.descriptionHead);
       if (meta) {
         meta.setAttribute("content", description);

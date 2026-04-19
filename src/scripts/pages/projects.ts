@@ -9,6 +9,7 @@ import type { FiltersStore } from "../type/filters";
 import { initProjectsStore } from "../../stores/initProjectsStore";
 import { initFiltersStore } from "../../stores/initFiltersStore";
 import { getTimelineDate } from "../utils/getTimelineDate";
+import { initCategoriesStore } from "../../stores/initCategoriesStore";
 
 type CategoryGroup = {
   category: CategorySlug;
@@ -33,6 +34,7 @@ interface loadProjects {
 }
 
 export function init() {
+  initCategoriesStore();
   initFiltersStore();
   initProjectsStore();
   Alpine.data("loadProjects", () => loadProjects());
@@ -55,7 +57,8 @@ export function loadProjects(): loadProjects {
       const store = Alpine.store("projects") as ProjectsStore;
       await store.init();
       await (Alpine.store("filters") as FiltersStore).init();
-      this.projects = [...store.projects];
+      await Alpine.nextTick();
+      this.projects = store.projects;
       this.setFilters();
       this.load();
       (this as any).$watch(
@@ -65,13 +68,13 @@ export function loadProjects(): loadProjects {
           this.projects = [...store.projects];
           this.setFilters();
           this.reload();
-        },
+        }
       );
     },
 
     setFilters() {
       const { search, status, category, city, order } = Alpine.store(
-        "filters",
+        "filters"
       ) as FiltersStore;
       this.filtered = this.projects
         .filter((p) => !category || p.category?.slug === category)
@@ -88,12 +91,12 @@ export function loadProjects(): loadProjects {
             case "nameAsc":
               return (a.projectName || "").localeCompare(
                 b.projectName || "",
-                locale,
+                locale
               );
             case "nameDesc":
               return (b.projectName || "").localeCompare(
                 a.projectName || "",
-                locale,
+                locale
               );
             default:
               return 0;

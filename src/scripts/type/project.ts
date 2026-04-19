@@ -107,7 +107,7 @@ export type ProjectsStore = {
   isReady: boolean;
   isLoading: boolean;
   error: unknown;
-  init: (forse?: boolean) => Promise<void>;
+  init: (force?: boolean) => Promise<Project[]>;
 };
 
 export interface Store {

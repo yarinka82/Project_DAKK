@@ -26,7 +26,13 @@ export async function fetchData<T>({
     return response as T;
   } catch (err) {
     if (isHttpError(err)) {
-      throw new Error(err.message);
+      const body = err?.response?.body as any;
+      const message =
+        body?.error?.description ||
+        body?.error?.message ||
+        err?.message ||
+        "Sanity error";
+      throw new Error(message);
     } else {
       throw new Error("Unknown error");
     }

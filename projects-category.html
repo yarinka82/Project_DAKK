@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uk" :lang="$store.locale.current" x-data="localization">
   <head x-data="pageCategoryProject()">
     <meta charset="UTF-8" />
@@ -30,7 +30,7 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
   <body data-page="projects-category" x-data="pageCategoryProject()">
-    <template x-if="isReady && !is404">
+    <template x-if="!is404">
       <fragment>
         <load src="/src/partials/header.html" />
         <main
@@ -53,9 +53,8 @@
         <load src="/src/partials/footer.html" />
       </fragment>
     </template>
-    <template x-if="isReady && is404">
+    <template x-if="is404">
       <load src="/src/partials/404.html" />
-      <load src="/src/partials/leaflet.html" />
     </template>
     <script type="module" src="/src/main.ts"></script>
   </body>
