@@ -18,9 +18,8 @@ export function init() {
   Alpine.data("leaflet", leaflet);
 }
 
-let initPromise: Promise<void>;
-
 export function pageCategoryProject() {
+  let initPromise: Promise<void>;
   return {
     is404: false,
     category: undefined as Categories | undefined,

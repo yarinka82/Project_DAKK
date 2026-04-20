@@ -32,12 +32,14 @@ export function leaflet() {
       const L = await import("leaflet");
       await import("leaflet-gesture-handling");
       await import("leaflet/dist/leaflet.css");
-      await import("leaflet-gesture-handling/dist/leaflet-gesture-handling.css");
+      await import(
+        "leaflet-gesture-handling/dist/leaflet-gesture-handling.css"
+      );
 
       const defaultIcon = L.icon({
-        iconUrl: "/images/marker-icon.png",
-        iconRetinaUrl: "/images/marker-icon-2x.png",
-        shadowUrl: "/images/marker-shadow.png",
+        iconUrl: "/images/marker-icon.webp",
+        iconRetinaUrl: "/images/marker-icon-2x.webp",
+        shadowUrl: "/images/marker-shadow.webp",
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
@@ -72,7 +74,11 @@ export function leaflet() {
           L.marker([project.location.lat, project.location.lng])
             .addTo(map)
             .bindPopup(
-              `<div style="text-align: center"><b>${project.projectName}</b><br></br><a href="${local.l(`/projects/${project.category.slug}/${project.slug}`)}">${local.t(local.projectsData.view)}</a></div>`,
+              `<div style="text-align: center"><b>${
+                project.projectName
+              }</b><br></br><a href="${local.l(
+                `/projects/${project.category.slug}/${project.slug}`
+              )}">${local.t(local.projectsData.view)}</a></div>`
             );
         }
       } else {
@@ -101,7 +107,9 @@ export function leaflet() {
             L.marker([p.location.lat, p.location.lng])
               .addTo(map)
               .bindPopup(
-                `<b>${p.projectName}</b><br><a href="${local.l(`/projects/${p.category.slug}/${p.slug}`)}">${local.t(local.projectsData.view)}</a>`,
+                `<b>${p.projectName}</b><br><a href="${local.l(
+                  `/projects/${p.category.slug}/${p.slug}`
+                )}">${local.t(local.projectsData.view)}</a>`
               );
           }
         });

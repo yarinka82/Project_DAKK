@@ -160,6 +160,7 @@ input {
   border-right: none;
   font-weight: var(--fw-regular);
   color: var(--clr-text-secondary);
+  font-size: var(--fs-body);
 
   @media (min-width: 768px) {
     position: static;
