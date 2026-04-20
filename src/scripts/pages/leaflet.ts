@@ -5,16 +5,6 @@ import { localization } from "../core/localization";
 import type { Category } from "../type/project";
 import { getPartsPath } from "../utils/getPartsPath";
 
-const defaultIcon = L.icon({
-  iconUrl: "/images/marker-icon.png",
-  iconRetinaUrl: "/images/marker-icon-2x.png",
-  shadowUrl: "/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
 interface ProjectLocation {
   projectName: string;
   slug: string;
@@ -45,7 +35,6 @@ export function leaflet() {
       await import(
         "leaflet-gesture-handling/dist/leaflet-gesture-handling.css"
       );
-      L.Marker.prototype.options.icon = defaultIcon;
 
       const defaultIcon = L.icon({
         iconUrl: "/images/marker-icon.webp",

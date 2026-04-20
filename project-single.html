@@ -33,7 +33,7 @@
             <div class="main-details-content">
               <div class="container main-details-content-1">
                 <h1 x-text="project?.projectName"></h1>
-                <h4><a x-show="project?.siteUrl" :href="project.siteUrl" x-text="project.siteUrl"></a></h4>
+                <h4><a x-show="project?.siteUrl" :href="project?.siteUrl" x-text="project?.siteUrl"></a></h4>
                 <h2 x-text="project?.category?.name"></h2>
               </div>
 
@@ -100,8 +100,8 @@
 
               <p>
                 <span x-text="project?.generalDesigner?.name ? 'Генпроектувальник: ' : ''"></span>
-                <span><a x-show="project.generalDesigner" :href="project.generalDesigner.link" target="_blank" alt="">
-                    <span x-text="project?.generalDesigner.name"></span>
+                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank" alt="">
+                    <span x-text="project?.generalDesigner?.name"></span>
                   </a></span>
               </p>
 
@@ -127,8 +127,8 @@
         <!--Web and Gallery-->
         <div class="container container-100 light-grey" x-show="project?.siteUrl || project?.photo?.length">
           <section class="website p-40-50">
-            <a x-show="project?.siteUrl" :href="project.siteUrl">
-              Перейти на сайт: <span x-text="project.siteUrl"></span>
+            <a x-show="project?.siteUrl" :href="project?.siteUrl">
+              Перейти на сайт: <span x-text="project?.siteUrl"></span>
             </a>
 
             <!-- Gallery -->

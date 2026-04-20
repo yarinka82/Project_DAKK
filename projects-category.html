@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk" :lang="$store.locale.current" x-data="localization">
   <head x-data="pageCategoryProject()">
     <meta charset="UTF-8" />
@@ -48,7 +48,9 @@
           >
             <load src="/src/partials/projects.html" />
           </section>
-          <load src="/src/partials/leaflet.html" />
+          <template x-if="!$store.projects.isLoading && projects.length>0">
+            <load src="/src/partials/leaflet.html" />
+          </template>
         </main>
         <load src="/src/partials/footer.html" />
       </fragment>
