@@ -7,6 +7,7 @@ import { projectsPrev } from "./projects-preview";
 import { leaflet } from "./leaflet";
 import { initCategoriesStore } from "../../stores/initCategoriesStore";
 import { initProjectsStore } from "../../stores/initProjectsStore";
+import { psGallery } from "../utils/psGallery";
 
 export function init() {
   initCategoriesStore();
@@ -16,36 +17,35 @@ export function init() {
   Alpine.data("leaflet", leaflet);
 }
 
-type ActiveImage = string | null;
+// type ActiveImage = string | null;
 
 export function loadSingleProject() {
   return {
     project: null as Partial<Project> | null,
     isLoading: false,
-
+galleryData: psGallery(),
     //For Gallery
-    activeImage: null as ActiveImage,
+//     activeImage: null as ActiveImage,
 
-    openImage(img: string) {
-      this.activeImage = img;
-    },
-
-    closeImage() {
-      this.activeImage = null;
-    },
 
     async init() {
       this.reset();
       if (this.isLoading) return;
       await this.load();
+
+      if (this.project?.photo?.length) {
+        this.galleryData.setPhotos(this.project.photo);
+        console.log("photos:", this.project?.photo);
+      }
     },
+
+
+
+
 
     async load() {
       if (this.isLoading) return;
       this.isLoading = true;
-
-      // test
-      /*  const slug = "central-park"; */
 
       //real
       // const slug = window.location.pathname.split("/").pop();
@@ -70,6 +70,7 @@ export function loadSingleProject() {
     reset() {
       this.project = null;
       this.isLoading = false;
+      this.galleryData = psGallery();
     },
   };
 }
