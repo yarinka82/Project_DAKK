@@ -1,29 +1,29 @@
+import Alpine from "alpinejs";
 import { fetchData } from "../core/api";
 import { PROJECT_QUERY } from "../service/query";
 import type { Project } from "../type/project";
-import { leaflet } from "./leaflet";
 import { getPartsPath } from "../utils/getPartsPath";
+import { projectsPrev } from "./projects-preview";
+import { leaflet } from "./leaflet";
 import { psGallery } from "../utils/psGallery";
+import { bootstrap } from "./projects";
 
 export function init() {
-  const data = getPartsPath();
-  if (!data?.slug) {
-    document.body.innerHTML =
-      "<h1 style='text-align:center'>404 — Нічого не знайдено</h1>";
-    return;
-  } else {
-    leaflet(data.slug);
-  }
+  bootstrap();
+  Alpine.data("loadSingleProject", () => loadSingleProject());
+  Alpine.data("projectsPrev", projectsPrev);
+  Alpine.data("leaflet", leaflet);
 }
+
+// type ActiveImage = string | null;
 
 export function loadSingleProject() {
   return {
     project: null as Partial<Project> | null,
     isLoading: false,
-
-    //For Gallery
     galleryData: psGallery(),
-
+    //For Gallery
+    //     activeImage: null as ActiveImage,
 
     async init() {
       this.reset();
@@ -35,10 +35,6 @@ export function loadSingleProject() {
         console.log("photos:", this.project?.photo);
       }
     },
-
-
-
-
 
     async load() {
       if (this.isLoading) return;

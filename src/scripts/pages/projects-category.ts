@@ -2,31 +2,54 @@ import Alpine from "alpinejs";
 import { localization } from "../core/localization.ts";
 import { getPartsPath } from "../utils/getPartsPath.ts";
 import { redirect } from "../utils/redirect.ts";
-import type { CategoriesStore } from "../type/project.ts";
-import { init as leaflet } from "./leaflet.ts";
+import { bootstrap } from "./projects.ts";
+import { leaflet } from "./leaflet.ts";
+import type { Categories, CategoriesStore } from "../type/filters.ts";
+
+export async function init() {
+  Alpine.data("pageCategoryProject", () => pageCategoryProject());
+
+  Alpine.data("leaflet", leaflet);
+}
 
 export function pageCategoryProject() {
   return {
-    isReady: false,
     is404: false,
+    category: undefined as Categories | undefined,
 
     async init() {
+      await bootstrap();
       const { category } = getPartsPath();
       const locale = localization();
 
-      const store = await (Alpine.store("categories") as CategoriesStore);
+      const found = (Alpine.store("categories") as CategoriesStore).list.find(
+        (c) => c.slug === category,
+      );
 
-      const iValid = store.list.some((c) => c.slug === category);
-
-      if (!iValid) {
+      if (!found) {
         this.is404 = true;
-        this.isReady = true;
         const url = `${locale.l("/projects")}`;
-
         redirect({ url, time: 5 });
       } else {
-        this.isReady = true;
-        queueMicrotask(() => leaflet());
+        this.setSeo();
+        this.category = found;
+      }
+    },
+
+    setSeo() {
+      const locale = localization();
+      document.title = `${locale.t(locale.projectsData.titleHead)} ${locale.t(
+        locale.projectsData.page,
+      )} — ${this.category?.name}`;
+
+      const meta = document.querySelector('meta[name="description"]');
+      const description = this.category
+        ? `${locale.t(locale.projectsData.descriptionHeadCategories)} — ${
+            this.category.name
+          }`
+        : locale.t(locale.projectsData.descriptionHead);
+      if (meta) {
+        meta.setAttribute("content", description);
       }
     },
   };

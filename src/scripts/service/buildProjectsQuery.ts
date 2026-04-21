@@ -1,4 +1,4 @@
-import type { Filter } from "./filters";
+import type { Filter } from "../type/filters";
 import {
   BASE_GROUP_BY_CATEGORY_PROJECTS_QUERY,
   BASE_PROJECTS_QUERY,
@@ -13,12 +13,9 @@ export function buildProjectQuery(
   perPage: number,
 ) {
   const { search, category, status, city, order, mode } = filters;
-  console.log("🚀 ~ buildProjectQuery ~ mode:", mode);
   const { start, end } = getStartEnd(page, perPage);
   const locale = filters.locale || "uk";
   const orderValue = SORT_OPTIONS[order || "newest"].replace("$locale", locale);
-  console.log("🚀 ~ buildProjectQuery ~ orderValue:", orderValue);
-  console.log("🚀 ~ loadProjects ~ category:", category);
 
   if (mode === "group") {
     const query = `{"category": ${BASE_GROUP_BY_CATEGORY_PROJECTS_QUERY}}`
