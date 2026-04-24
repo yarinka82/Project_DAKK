@@ -37,18 +37,23 @@
       ]
     }
   ],
-
+  "redirects": [
+    { "source": "/projects/:a/:b/:c", "destination": "/projects" },
+    { "source": "/en/projects/:a/:b/:c", "destination": "/en/projects" },
+    { "source": "/news/:a/:b/", "destination": "/news" },
+    { "source": "/en/news/:a/:b/", "destination": "/news" }
+  ],
   "rewrites": [
     {
       "source": "/projects/:category/:id",
-      "destination": "/project-single.html"
+      "destination": "/project.html"
     },
     {
       "source": "/projects/:category",
       "destination": "/projects-category.html"
     },
     { "source": "/projects", "destination": "/projects.html" },
-    { "source": "/news/:id", "destination": "/news-single.html" },
+    { "source": "/news/:id", "destination": "/news.html" },
     { "source": "/news", "destination": "/news.html" },
     { "source": "/videos", "destination": "/videos.html" },
     { "source": "/about", "destination": "/about.html" },
@@ -62,7 +67,7 @@
       "destination": "/projects-category.html"
     },
     { "source": "/en/projects", "destination": "/projects.html" },
-    { "source": "/en/news/:id", "destination": "/news-single.html" },
+    { "source": "/en/news/:id", "destination": "/news.html" },
     { "source": "/en/news", "destination": "/news.html" },
     { "source": "/en/videos", "destination": "/videos.html" },
     { "source": "/en/about", "destination": "/about.html" },

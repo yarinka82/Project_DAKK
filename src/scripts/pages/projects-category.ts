@@ -29,7 +29,7 @@ export function pageCategoryProject() {
       if (!found) {
         this.is404 = true;
         const url = `${locale.l("/projects")}`;
-        redirect({ url, time: 5 });
+        redirect({ url });
       } else {
         this.setSeo();
         this.category = found;
