@@ -14,8 +14,12 @@ header {
 }
 
 .langSwitch {
-  display: flex;
-  gap: 10px;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: flex;
+    gap: 10px;
+  }
 }
 
 .langSwitch button {
@@ -38,8 +42,8 @@ header {
 .full-screen-menu {
   position: fixed;
   inset: 0;
-  z-index: 2000;
-  background-color: var(--clr-bg-main); /* Темний колір (напр. gray-900) */
+  z-index: 4000;
+  background-color: var(--clr-bg-main);
   color: var(--clr-text-main);
 
   transition:
@@ -83,8 +87,8 @@ header {
 
 .close-button {
   position: absolute;
-  top: 8rem;
-  right: 2rem;
+  top: 0.5rem;
+  right: 1rem;
   background: none;
   border: none;
   font-size: 5rem;
@@ -102,6 +106,6 @@ header {
 
 .logo-img {
   display: block;
-  max-width: 100%;
-  height: auto;
+  max-width: 150px;
+  min-height: 50px;
 }

@@ -2,7 +2,7 @@ import { localization } from "../core/localization";
 
 type RedirectType = {
   url: string;
-  time: number;
+  time?: number;
 };
 const locale = localization();
 

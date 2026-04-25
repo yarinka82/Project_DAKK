@@ -3,6 +3,8 @@ import { fetchData } from "../core/api";
 import { NEWS_QUERY } from "../service/query";
 import type { NewsStore } from "../type/news";
 import { newsTmpData } from "../../data/news/news-tmp";
+import { initNewsStore } from "../../stores/initNewsStore";
+import { getUrl, validationNew } from "./news-single";
 
 const MAX_SYMBOLS_TO_SHOW = 150;
 
@@ -36,6 +38,7 @@ export const newsStore: NewsStore = {
 };
 
 export function init() {
+  initNewsStore();
   const newsStore = Alpine.store("news") as NewsStore;
   newsStore.isLoading = false;
 
@@ -47,9 +50,11 @@ export function init() {
     },
   })
     .then((data: any) => {
+      console.log("🚀 ~ init ~ data:", data);
       // newsStore.setNews(data.news);
       // // !! Temporary data
       newsStore.setNews(newsTmpData);
+      validationNew();
     })
     .catch((err) => {
       console.error("Failed to load news items:", err);
@@ -69,6 +74,7 @@ export function setPublication(id: string) {
   newsStore.setCurrentPublication(id);
   newsStore.setPublicationStatus(true);
   scrollToTopOfPublication();
+  getUrl(id);
 }
 
 export function scrollToTopOfPublication(): void {

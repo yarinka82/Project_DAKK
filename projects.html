@@ -6,10 +6,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700&display=swap"
-      rel="stylesheet"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
+    <link rel="preload" href="/src/css/components/projects.css" as="style" />
+    <link rel="stylesheet" href="/src/css/components/projects.css" />
 
     <title x-text="t(projectsData.titleHead)">
       Галерея проектів Дніпровської архітектурної конструкторської
@@ -22,31 +30,39 @@
     />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
-  <body
-    data-page="projects"
-    x-data="filters"
-    x-init="$watch('$store.locale.current', () => init())"
-  >
-    <load src="./src/partials/header.html" />
+  <body data-page="projects">
+    <load src="/src/partials/header.html" />
 
-    <main x-data="loadProjects">
-      <section id="filter" x-data="{open: false, show: false}">
-        <load src="./src/partials/filters.html" />
+    <main x-data="loadProjects" x-init="init()">
+      <section
+        id="filter"
+        x-data="$store.filters"
+        x-init="$watch('$store.locale.current', () => init())"
+        x-cloak
+      >
+        <load src="/src/partials/filters.html" />
       </section>
 
-      <template x-if="mode === 'all'">
-        <section id="projects">
-          <load src="./src/partials/projects.html" />
+      <template x-if="$store.projects.error">
+        <p x-text="$store.projects.error" class="error"></p>
+      </template>
+
+      <template x-if="$store.filters.mode === 'all'">
+        <section id="projects" x-cloak>
+          <load src="/src/partials/projects.html" />
         </section>
       </template>
 
-      <template x-if="mode === 'group'">
-        <load src="./src/partials/projects-group.html" />
+      <template x-if="$store.filters.mode === 'group'">
+        <load src="/src/partials/projects-group.html" />
       </template>
-
-      <load src="./src/partials/leaflet.html" />
+      <template
+        x-if="!$store.projects.isLoading && $store.projects.projects.length>0"
+      >
+        <load src="/src/partials/leaflet.html" />
+      </template>
     </main>
-    <load src="./src/partials/footer.html" />
-    <script type="module" src="./src/main.ts"></script>
+    <load src="/src/partials/footer.html" />
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

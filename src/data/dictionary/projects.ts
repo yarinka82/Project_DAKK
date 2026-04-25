@@ -56,10 +56,18 @@ export const projectsData = {
     en: "View",
   },
   mapTitle: {
+    uk: "Локація об'єкту",
+    en: "Location of the object",
+  },
+  mapText: {
+    uk: "Можете переглянути положення даного об'єкту на карті",
+    en: "You can view the position of this object on the map",
+  },
+  mapsTitle: {
     uk: "Карта наших проектів",
     en: "Map of our projects",
   },
-  mapText: {
+  mapsText: {
     uk: "Можете переглянути положення наших об'єктів на карті",
     en: "You can view the position of our facilities on the map",
   },
@@ -99,4 +107,20 @@ export const projectsData = {
     uk: "Переключити мову на",
     en: "Langswitch to",
   },
+    page: {
+    uk: "сторінка категорії",
+    en: "page category",
+  },
+    descriptionHeadCategories: {
+    uk: "Ознайомтесь із галереєю проектів ДАКК. Від концептуальних ідей до реалізованих будівель — сучасна архітектура з увагою до деталей. На даній сторінці ви знайдете проекти в категорії ",
+    en: "Explore the project gallery of Dnipro Architectural Design Company (DAKK). From conceptual ideas to completed buildings — modern architecture with attention to detail. On this page you will find projects in the category",
+  },
+  titleGroup: {
+    uk: "Категорії проектів",
+    en: "Project Categories"
+  },
+  textGroup: {
+    uk: "Оберіть категорію, щоб переглянути відповідні проєкти.",
+    en: "Select a category to view relevant projects."
+  }
 };

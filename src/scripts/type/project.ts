@@ -1,6 +1,7 @@
 import type { categorySlugs } from "../../data/category";
 import type { statusLang } from "../../data/dictionary/statusLang";
-import type { Categories } from "../service/filters";
+import type { CategoriesStore, FiltersStore } from "./filters";
+import type { NewsStore } from "./news";
 
 export interface Timeline {
   yearStart?: number;
@@ -99,12 +100,22 @@ export interface Project {
   seo: Seo;
   _createdAt?: Date;
   _rev?: string;
+  searchIndex?: string;
 }
 
-export type Mode = "all" | "group";
-
-export type CategoriesStore = {
-  list: Categories[];
+export type ProjectsStore = {
+  projects: Project[];
   isReady: boolean;
-  init: () => Promise<void>;
+  isLoading: boolean;
+  error: unknown;
+  set: (data: Project[]) => void;
+  setError: (error: unknown) => void;
+  setloading: (isLoading: boolean) => void;
 };
+
+export interface Store {
+  filters: FiltersStore;
+  categories: CategoriesStore;
+  projects: ProjectsStore;
+  news: NewsStore;
+}
