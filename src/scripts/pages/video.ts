@@ -7,13 +7,32 @@ export const videoStore: VideoStore = {
   items: [],
   isItemOpened: false,
   openedItemId: null,
+
+  get openedVideo() {
+    return this.items.find((item) => item._id === this.openedItemId) || null;
+  },
+
   getVideos() {
     return this.items;
+  },
+
+  openModal(id) {
+    this.openedItemId = id;
+    this.isItemOpened = true;
+    document.body.style.overflow = "hidden";
+  },
+
+  closeModal() {
+    this.isItemOpened = false;
+    this.openedItemId = null;
+    document.body.style.overflow = "";
   },
 };
 
 export function init() {
-  const videoStore = Alpine.store("videos") as VideoStore;
+  Alpine.store("videos", videoStore);
+
+  const store = Alpine.store("videos") as VideoStore;
 
   fetchData({
     query: VIDEOS_QUERY,
@@ -23,7 +42,7 @@ export function init() {
     },
   })
     .then((data: any) => {
-      videoStore.items = [...data.videos];
+      store.items = [...data.videos];
       console.log(videoStore.items);
     })
     .catch((err) => {

@@ -14,5 +14,9 @@ export interface VideoStore {
   isItemOpened: boolean;
   openedItemId: string | null;
 
+  readonly openedVideo: Video | null;
+
   getVideos: () => Video[] | [];
+  openModal: (id: string) => void;
+  closeModal: () => void;
 }
