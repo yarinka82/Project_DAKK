@@ -1,14 +1,35 @@
+import Alpine from "alpinejs";
+
+
+
 export function psGallery() {
     return {
         photos: [] as string[],
         activeIndex: 0,
         activeImage: null as string | null,
         escHandler: null as ((e: KeyboardEvent) => void) | null,
-        init() { this.scrollToActive(); },
+        isScrollable: false,
+        isMobile: window.innerWidth < 768,
+
+        init() {
+            window.addEventListener('resize', () => {
+                this.isMobile = window.innerWidth < 768;
+                this.scrollToActive();
+                this.checkScrollable();
+            });
+            console.log("isMobile " + this.isMobile);
+        },
+
 
         setPhotos(newPhotos: string[]) {
             this.photos = newPhotos || [];
             this.activeIndex = 0;
+
+            Alpine.nextTick(() => {
+                setTimeout(() => {
+                    this.checkScrollable();
+                }, 100);
+            });
         },
 
         prev() {
@@ -44,12 +65,24 @@ export function psGallery() {
             const track = document.querySelector('.gallery-track');
             if (!track) return;
 
-            const width = track.clientWidth;
+            if (this.isMobile) {
+                const width = track.clientWidth;
 
-            track.scrollTo({
-                left: this.activeIndex * width,
-                behavior: "smooth"
-            });
+                track.scrollTo({
+                    left: this.activeIndex * width,
+                    behavior: "smooth"
+                });
+            } else {
+                const el = track.children[this.activeIndex];
+                el?.scrollIntoView({ behavior: "smooth", inline: "center" });
+            }
+        },
+
+        checkScrollable() {
+            const track = (this as any).$refs?.track;
+            if (!track) return;
+
+            this.isScrollable = track.scrollWidth > track.clientWidth;
         },
 
         openModal(img: string) {
