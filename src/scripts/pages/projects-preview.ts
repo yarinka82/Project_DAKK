@@ -16,7 +16,7 @@ export function projectsPrev() {
       Alpine.effect(() => {
         if (!store.isReady || store.projects.length === 0) return;
         const projects = store.projects;
-  
+
         if (this.projects.length === 0) {
           this.projects = getRandomProjects(projects);
         }
@@ -44,44 +44,27 @@ export function projectsPrev() {
     },
 
     async next() {
-      const index = (this.current + this.step) % this.projects.length;
-      this.visible = [...this.visible, this.projects[index]];
+      this.current = (this.current + 1) % this.projects.length;
+      await Alpine.nextTick();
+      const index =
+        (this.current - 1 + this.projects.length) % this.projects.length;
+      this.visible = [this.projects[index], ...this.visible];
+
       await Alpine.nextTick();
       const items = document.querySelectorAll(".item-prev");
       items.forEach((el) => el.classList.add("next"));
-
-      await Promise.race([
-        new Promise<void>((resolve) =>
-          items[0]?.addEventListener("transitionend", () => resolve(), {
-            once: true,
-          }),
-        ),
-        new Promise((resolve) => setTimeout(resolve, 350)),
-      ]);
-
-      this.current = (this.current + 1) % this.projects.length;
-      items.forEach((el) => el.classList.remove("next"));
     },
 
     async prev() {
       this.current =
         (this.current - 1 + this.projects.length) % this.projects.length;
-      this.updateVisible();
       await Alpine.nextTick();
       const index = (this.current + 1) % this.projects.length;
       this.visible = [...this.visible, this.projects[index]];
       await Alpine.nextTick();
-
       const items = document.querySelectorAll(".item-prev");
+
       items.forEach((el) => el.classList.add("prev"));
-
-      await new Promise<void>((resolve) =>
-        items[0]?.addEventListener("transitionend", () => resolve(), {
-          once: true,
-        }),
-      );
-
-      items.forEach((el) => el.classList.remove("prev"));
     },
   };
 }

@@ -37,10 +37,9 @@
       ]
     }
   ],
-
   "rewrites": [
     {
-      "source": "/projects/:category/:id",
+      "source": "/projects/:category/:id/:a*",
       "destination": "/project-single.html"
     },
     {
@@ -48,13 +47,13 @@
       "destination": "/projects-category.html"
     },
     { "source": "/projects", "destination": "/projects.html" },
-    { "source": "/news/:id", "destination": "/news-single.html" },
+    { "source": "/news/:id*", "destination": "/news.html" },
     { "source": "/news", "destination": "/news.html" },
     { "source": "/videos", "destination": "/videos.html" },
     { "source": "/about", "destination": "/about.html" },
     { "source": "/contacts", "destination": "/contacts.html" },
     {
-      "source": "/en/projects/:category/:id",
+      "source": "/en/projects/:category/:id/:a*",
       "destination": "/project-single.html"
     },
     {
@@ -62,11 +61,12 @@
       "destination": "/projects-category.html"
     },
     { "source": "/en/projects", "destination": "/projects.html" },
-    { "source": "/en/news/:id", "destination": "/news-single.html" },
+    { "source": "/en/news/:id*", "destination": "/news.html" },
     { "source": "/en/news", "destination": "/news.html" },
     { "source": "/en/videos", "destination": "/videos.html" },
     { "source": "/en/about", "destination": "/about.html" },
     { "source": "/en/contacts", "destination": "/contacts.html" },
-    { "source": "/en", "destination": "/index.html" }
+    { "source": "/en", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/404.html" }
   ]
 }

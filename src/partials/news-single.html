@@ -14,7 +14,11 @@
       <h3 x-text="getPost()?.title" class="post-title"></h3>
       <p x-text="getPost()?.description" class="post-description"></p>
     </div>
-    <button type="button" @click="resetPost()" class="post-btn-back">
+    <button
+      type="button"
+      @click="resetPost(), window.history.pushState({}, '', '/news')"
+      class="post-btn-back"
+    >
       Повернутися до публікацій
     </button>
   </div>

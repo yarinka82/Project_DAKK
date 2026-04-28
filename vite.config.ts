@@ -19,8 +19,14 @@ const DYNAMIC_ROUTES = [
     segment: "projects",
     depth2: "/projects-category.html",
     depth3: "/project-single.html",
+    moreDepth: "/projects.html",
   },
-  { segment: "news", depth2: "/news-single.html", depth3: null },
+  {
+    segment: "news",
+    depth2: "/news.html",
+    depth3: "/news.html",
+    moreDepth: "/news.html",
+  },
 ];
 
 export default defineConfig({
@@ -62,12 +68,31 @@ export default defineConfig({
           const dynamic = DYNAMIC_ROUTES.find((r) => r.segment === parts[0]);
 
           if (dynamic) {
-            if (parts.length === 2 && dynamic.depth2) req.url = dynamic.depth2;
-            if (parts.length === 3 && dynamic.depth3) req.url = dynamic.depth3;
-            return next();
+            if (parts.length === 2 && dynamic.depth2) {
+              req.url = dynamic.depth2;
+              return next();
+            }
+            if (
+              parts.length >= 2 &&
+              dynamic.segment === "news" &&
+              dynamic.depth2
+            ) {
+              req.url = dynamic.depth2;
+              return next();
+            }
+            if (
+              parts.length >= 3 &&
+              dynamic.segment === "projects" &&
+              dynamic.depth3
+            ) {
+              req.url = dynamic.depth3;
+              return next();
+            }
+            // res.writeHead(302, { Location: `/${dynamic.segment}` });
+            // res.end();
+            // return;
           }
-
-          next();
+         return next();
         });
       },
     },
