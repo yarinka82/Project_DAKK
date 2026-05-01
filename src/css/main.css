@@ -11,8 +11,9 @@
 @import "./components/contacts.css";
 @import "./components/news.css";
 @import "./components/project-single.css";
-@import "./components/projects.css";
+@import "./components/404.css";
 @import "./components/videos.css";
 @import "./components/news-single.css";
 @import "./components/news-more.css";
 @import "./components/leaflet.css";
+@import "./components/btnUpp.css";

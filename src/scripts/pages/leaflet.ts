@@ -4,6 +4,7 @@ import { LEAFLET_QUERY, LEAFLET_SINGLE_QUERY } from "../service/query";
 import { localization } from "../core/localization";
 import type { Category } from "../type/project";
 import { getPartsPath } from "../utils/getPartsPath";
+import { getCashed } from "../service/getCashed";
 
 interface ProjectLocation {
   projectName: string;
@@ -32,9 +33,7 @@ export function leaflet() {
       const L = await import("leaflet");
       await import("leaflet-gesture-handling");
       await import("leaflet/dist/leaflet.css");
-      await import(
-        "leaflet-gesture-handling/dist/leaflet-gesture-handling.css"
-      );
+      await import("leaflet-gesture-handling/dist/leaflet-gesture-handling.css");
 
       const defaultIcon = L.icon({
         iconUrl: "/images/marker-icon.webp",
@@ -46,13 +45,27 @@ export function leaflet() {
         shadowSize: [41, 41],
       });
 
+      const projects: ProjectLocation[] | null = await getCashed(
+        "locations",
+        () =>
+          fetchData<ProjectLocation[]>({
+            query: LEAFLET_QUERY,
+          }),
+      );
+       if (!projects) return;
+
       if (page === "project-single" && slug) {
-        const project: ProjectLocation = await fetchData({
-          query: LEAFLET_SINGLE_QUERY,
-          options: {
-            slug,
-          },
-        });
+        let project = projects?.find((p) => p.slug === slug);
+
+        if (!project) {
+          project = await fetchData<ProjectLocation>({
+            query: LEAFLET_SINGLE_QUERY,
+            options: {
+              slug,
+            },
+          });
+        }
+        if (!project) return;
 
         if (project.location) {
           if (!map) {
@@ -77,8 +90,8 @@ export function leaflet() {
               `<div style="text-align: center"><b>${
                 project.projectName
               }</b><br></br><a href="${local.l(
-                `/projects/${project.category.slug}/${project.slug}`
-              )}">${local.t(local.projectsData.view)}</a></div>`
+                `/projects/${project.category.slug}/${project.slug}`,
+              )}">${local.t(local.projectsData.view)}</a></div>`,
             );
         }
       } else {
@@ -98,18 +111,14 @@ export function leaflet() {
           map.setView([50.4501, 30.5234], 12);
         }
 
-        const projects: ProjectLocation[] = await fetchData({
-          query: LEAFLET_QUERY,
-        });
-
         projects.forEach((p) => {
           if (p.location) {
             L.marker([p.location.lat, p.location.lng])
               .addTo(map)
               .bindPopup(
                 `<b>${p.projectName}</b><br><a href="${local.l(
-                  `/projects/${p.category.slug}/${p.slug}`
-                )}">${local.t(local.projectsData.view)}</a>`
+                  `/projects/${p.category.slug}/${p.slug}`,
+                )}">${local.t(local.projectsData.view)}</a>`,
               );
           }
         });

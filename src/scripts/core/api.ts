@@ -9,6 +9,8 @@ const client = createClient({
   useCdn: true,
 });
 
+let loadingQuery = new Map<string, Promise<any>>();
+
 export async function fetchData<T>({
   query,
   options = {},
@@ -17,24 +19,31 @@ export async function fetchData<T>({
   options?: Record<string, unknown>;
 }): Promise<T> {
   const locale = (Alpine.store("locale") as LocaleStore).current;
+  const key = query + JSON.stringify(options) + locale;
 
-  try {
-    const response = await client.fetch(query, {
-      ...options,
-      locale,
-    });
-    return response as T;
-  } catch (err) {
-    if (isHttpError(err)) {
-      const body = err?.response?.body as any;
-      const message =
-        body?.error?.description ||
-        body?.error?.message ||
-        err?.message ||
-        "Sanity error";
-      throw new Error(message);
-    } else {
-      throw new Error("Unknown error");
+  if (loadingQuery.has(key)) return loadingQuery.get(key);
+
+  const promise = (async () => {
+    try {
+      const response = await client.fetch(query, {
+        ...options,
+        locale,
+      });
+      return response as T;
+    } catch (err) {
+      if (isHttpError(err)) {
+        const body = err?.response?.body as any;
+        const message =
+          body?.error?.description ||
+          body?.error?.message ||
+          err?.message ||
+          "Sanity error";
+        throw new Error(message);
+      } else {
+        throw new Error("Unknown error");
+      }
     }
-  }
+  })();
+  loadingQuery.set(key, promise);
+  return promise;
 }

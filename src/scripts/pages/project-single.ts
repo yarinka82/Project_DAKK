@@ -11,7 +11,6 @@ import { bootstrap } from "./projects";
 import type { ProjectsStore } from "../type/project";
 
 export function init() {
-  bootstrap();
   Alpine.data("loadSingleProject", () => loadSingleProject());
   Alpine.data("projectsPrev", projectsPrev);
   Alpine.data("leaflet", leaflet);
