@@ -11,7 +11,7 @@
   <load src="./src/partials/header.html" />
 
 
-   <main id="singleProject" x-data="loadSingleProject" x-init="$watch('$store.locale.current', () => init())">
+  <main id="singleProject" x-data="loadSingleProject()" x-init="$watch('$store.locale.current', () => init())">
 
 
     <section>
@@ -100,7 +100,8 @@
 
               <p>
                 <span x-text="project?.generalDesigner?.name ? 'Генпроектувальник: ' : ''"></span>
-                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank" alt="">
+                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank"
+                    alt="">
                     <span x-text="project?.generalDesigner?.name"></span>
                   </a></span>
               </p>
@@ -135,8 +136,11 @@
 
 
             <section class="gallery" x-show="project?.photo?.length">
-              <div class="gallery-wrapper">
-                <button @click="galleryData.prev()" class="arrow left" x-show="project?.photo?.length > 1 && galleryData?.activeIndex !== 0">&lt;</button>
+              <div class=" gallery-wrapper">
+                <button @click="galleryData.prev()" class="arrow left"
+                  x-show="(galleryData.isMobile && galleryData.photos.length > 1) || (!galleryData.isMobile && galleryData.isScrollable)">
+                  &lt;
+                </button>
 
                 <div class="gallery-track" x-ref="track">
                   <template x-for="(img, index) in galleryData.photos" :key="index">
@@ -146,15 +150,17 @@
                 </div>
 
                 <button @click="galleryData.next()" class="arrow right"
-                  x-show="project?.photo?.length > 1 && galleryData?.activeIndex < (project?.photo?.length -1)">&gt;</button>
+                  x-show="(galleryData.isMobile && galleryData.photos.length > 1) || (galleryData.isScrollable && galleryData?.activeIndex < (project?.photo?.length -1))">&gt;</button>
               </div>
 
               <template x-if="galleryData.activeImage">
                 <div class="modal" @click="galleryData.closeModal()">
                   <div class="image-wrapper">
-                    <button @click.stop = 'galleryData.prev()' class="arrow left" x.show="project?.photo?.length > 1">&lt;</button>
+                    <button @click.stop='galleryData.prev()' class="arrow left"
+                      x.show="project?.photo?.length > 1">&lt;</button>
                     <img :src="galleryData.activeImage" />
-                    <button @click.stop = 'galleryData.next()' class="arrow right" x.show="project?.photo?.length > 1">&gt;</button>
+                    <button @click.stop='galleryData.next()' class="arrow right"
+                      x.show="project?.photo?.length > 1">&gt;</button>
                   </div>
                 </div>
               </template>
@@ -186,9 +192,9 @@
         </template>
     </section>
 
-    
+
     <load src="./src/partials/projects-preview.html" />
-      <load src="./src/partials/leaflet.html" />
+    <load src="./src/partials/leaflet.html" />
 
   </main>
 

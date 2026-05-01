@@ -7,7 +7,8 @@ import { projectsPrev } from "./projects-preview";
 import { leaflet } from "./leaflet";
 import { psGallery } from "../utils/psGallery";
 import { bootstrap } from "./projects";
-import { validationProject } from "./projects-category";
+/* import { validationProject } from "./projects-category"; */
+import type { ProjectsStore } from "../type/project";
 
 export function init() {
   Alpine.data("loadSingleProject", () => loadSingleProject());
@@ -26,14 +27,10 @@ export function loadSingleProject() {
     //     activeImage: null as ActiveImage,
 
     async init() {
-      await bootstrap();
-      const project = validationProject("single");
-      if (project) {
-        this.project = project;
-      } else {
-        // this.reset();
-        await this.load();
-      }
+      this.reset();
+      if (this.isLoading) return;
+      await this.load();
+      
       if (this.project?.photo?.length) {
         this.galleryData.setPhotos(this.project.photo);
         console.log("photos:", this.project?.photo);
@@ -41,14 +38,22 @@ export function loadSingleProject() {
     },
 
     async load() {
-      if (this.isLoading) return;
-      this.isLoading = true;
+    if (this.isLoading) return;
+    this.isLoading = true;
 
-      //real
-      // const slug = window.location.pathname.split("/").pop();
+    //real
+    // const slug = window.location.pathname.split("/").pop();
 
-      const { slug } = getPartsPath();
+    const { slug } = getPartsPath();
 
+    const projects = (Alpine.store('projects') as ProjectsStore).projects;
+    const project = projects?.find(p => p.slug === slug);
+
+    if (project) {
+      this.project = project;
+      this.isLoading = false;
+      return;
+    } else {
       try {
         this.project = await fetchData<Project>({
           query: PROJECT_QUERY,
@@ -60,14 +65,13 @@ export function loadSingleProject() {
       } finally {
         this.isLoading = false;
       }
+    }
+  },
 
-      // end test
-    },
-
-    // reset() {
-    //   this.project = null;
-    //   this.isLoading = false;
-    //   this.galleryData = psGallery();
-    // },
-  };
-}
+  reset() {
+    this.project = null;
+    this.isLoading = false;
+    this.galleryData = psGallery();
+  },
+};
+  }
