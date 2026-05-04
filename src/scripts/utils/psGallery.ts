@@ -1,5 +1,4 @@
-import Alpine from "alpinejs";
-
+/* import Alpine from "alpinejs"; */
 
 
 export function psGallery() {
@@ -8,14 +7,12 @@ export function psGallery() {
         activeIndex: 0,
         activeImage: null as string | null,
         escHandler: null as ((e: KeyboardEvent) => void) | null,
-        isScrollable: false,
         isMobile: window.innerWidth < 768,
 
         init() {
             window.addEventListener('resize', () => {
                 this.isMobile = window.innerWidth < 768;
                 this.scrollToActive();
-                this.checkScrollable();
             });
             console.log("isMobile " + this.isMobile);
         },
@@ -24,12 +21,6 @@ export function psGallery() {
         setPhotos(newPhotos: string[]) {
             this.photos = newPhotos || [];
             this.activeIndex = 0;
-
-            Alpine.nextTick(() => {
-                setTimeout(() => {
-                    this.checkScrollable();
-                }, 100);
-            });
         },
 
         prev() {
@@ -62,7 +53,7 @@ export function psGallery() {
         },
 
         scrollToActive() {
-            const track = document.querySelector('.gallery-track');
+            const track = document.querySelector('.project-gallery-track');
             if (!track) return;
 
             if (this.isMobile) {
@@ -78,12 +69,6 @@ export function psGallery() {
             }
         },
 
-        checkScrollable() {
-            const track = (this as any).$refs?.track;
-            if (!track) return;
-
-            this.isScrollable = track.scrollWidth > track.clientWidth;
-        },
 
         openModal(img: string) {
             this.activeImage = img;
