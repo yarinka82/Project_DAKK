@@ -19,6 +19,7 @@ const routes: Record<string, () => Promise<PageModule>> = {
   video: () => import("./scripts/pages/video"),
   "project-single": () => import("./scripts/pages/project-single"),
   "projects-category": () => import("./scripts/pages/projects-category"),
+  about: () => import("./scripts/pages/about"),
 };
 
 Alpine.data("localization", localization);
