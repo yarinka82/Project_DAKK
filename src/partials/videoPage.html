@@ -7,7 +7,7 @@
           <button
             class="videos-card-btn"
             type="button"
-            @click="console.log(data._id)"
+            @click="$store.videos.openModal(data._id)"
           >
             <article class="videos-card">
               <img

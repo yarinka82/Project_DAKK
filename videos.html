@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="uk" :lang="$store.locale.current" x-data="localization">>
+<html lang="uk" :lang="$store.locale.current" x-data="localization">
+  >
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +13,11 @@
       <load src="./src/partials/videoPage.html" />
     </main>
     <load src="./src/partials/footer.html" />
+
+    <load
+      x-show="$store.video.isItemOpened"
+      src="./src/partials/videoModal.html"
+    />
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
