@@ -19,22 +19,8 @@ const routes: Record<string, () => Promise<PageModule>> = {
   video: () => import("./scripts/pages/video"),
   "project-single": () => import("./scripts/pages/project-single"),
   "projects-category": () => import("./scripts/pages/projects-category"),
+  about: () => import("./scripts/pages/about"),
 };
-
-const page = document.body.dataset.page;
-
-if (page && routes[page]) {
-  routes[page]()
-    .then((module) => {
-      module.init();
-      Alpine.start();
-    })
-    .catch((err) => {
-      console.error("Failed to load the page script:", err);
-    });
-} else {
-  Alpine.start();
-}
 
 Alpine.data("localization", localization);
 Alpine.data("renderMenu", renderMenu);
@@ -50,6 +36,21 @@ Alpine.store("locale", {
 } as LocaleStore);
 
 window.Alpine = Alpine;
+
+const page = document.body.dataset.page;
+
+if (page && routes[page]) {
+  routes[page]()
+    .then((module) => {
+      module.init();
+      Alpine.start();
+    })
+    .catch((err) => {
+      console.error("Failed to load the page script:", err);
+    });
+} else {
+  Alpine.start();
+}
 
 // Alpine.store("news", newsStore as NewsStore);
 

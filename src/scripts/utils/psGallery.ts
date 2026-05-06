@@ -1,10 +1,22 @@
+/* import Alpine from "alpinejs"; */
+
+
 export function psGallery() {
     return {
         photos: [] as string[],
         activeIndex: 0,
         activeImage: null as string | null,
         escHandler: null as ((e: KeyboardEvent) => void) | null,
-        init() { this.scrollToActive(); },
+        isMobile: window.innerWidth < 768,
+
+        init() {
+            window.addEventListener('resize', () => {
+                this.isMobile = window.innerWidth < 768;
+                this.scrollToActive();
+            });
+            console.log("isMobile " + this.isMobile);
+        },
+
 
         setPhotos(newPhotos: string[]) {
             this.photos = newPhotos || [];
@@ -41,16 +53,22 @@ export function psGallery() {
         },
 
         scrollToActive() {
-            const track = document.querySelector('.gallery-track');
+            const track = document.querySelector('.project-gallery-track');
             if (!track) return;
 
-            const width = track.clientWidth;
+            if (this.isMobile) {
+                const width = track.clientWidth;
 
-            track.scrollTo({
-                left: this.activeIndex * width,
-                behavior: "smooth"
-            });
+                track.scrollTo({
+                    left: this.activeIndex * width,
+                    behavior: "smooth"
+                });
+            } else {
+                const el = track.children[this.activeIndex];
+                el?.scrollIntoView({ behavior: "smooth", inline: "center" });
+            }
         },
+
 
         openModal(img: string) {
             this.activeImage = img;

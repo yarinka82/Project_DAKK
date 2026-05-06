@@ -8,6 +8,7 @@
 
 /* 3. Content Sections */
 @import "./components/hero.css";
+@import "./components/about.css";
 @import "./components/contacts.css";
 @import "./components/news.css";
 @import "./components/project-single.css";
@@ -16,3 +17,4 @@
 @import "./components/news-single.css";
 @import "./components/news-more.css";
 @import "./components/leaflet.css";
+@import "./components/btnUpp.css";

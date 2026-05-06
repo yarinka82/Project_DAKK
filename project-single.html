@@ -11,7 +11,7 @@
   <load src="./src/partials/header.html" />
 
 
-   <main id="singleProject" x-data="loadSingleProject" x-init="$watch('$store.locale.current', () => init())">
+  <main id="singleProject" x-data="loadSingleProject()" x-init="$watch('$store.locale.current', () => init())">
 
 
     <section>
@@ -22,8 +22,8 @@
         <!--  <img x-show="project?.cover" :src="project?.cover" /> -->
 
         <!-- Hero -->
-        <div class="container container-100 grey">
-          <section class="hero" :style="project?.cover ? `background-image: url(${project.cover})` : ''">
+        <div class="container container-100 project-grey">
+          <section class="project-hero" :style="project?.cover ? `background-image: url(${project.cover})` : ''">
 
           </section>
 
@@ -32,13 +32,13 @@
           <section class="main-details">
             <div class="main-details-content">
               <div class="container main-details-content-1">
-                <h1 x-text="project?.projectName"></h1>
+                <h1 x-text="project?.projectName" class="project-h1"></h1>
                 <h4><a x-show="project?.siteUrl" :href="project?.siteUrl" x-text="project?.siteUrl"></a></h4>
                 <h2 x-text="project?.category?.name"></h2>
               </div>
 
               <div class="container main-details-content-2">
-                <div class="details-column">
+                <div class="project-details-column">
                   <div>
                     <p x-text="project?.country"></p>
                     <p x-text="project?.city?.name"></p>
@@ -49,7 +49,7 @@
                   </div>
                 </div>
 
-                <div class="details-column">
+                <div class="project-details-column">
                   <div>
                     <p x-text="project?.timeline ? 'Рік роботи' : ''"></p>
                     <p x-text="project?.timeline
@@ -72,7 +72,7 @@
 
         <!-- Description -->
         <div class="container container-100">
-          <section class="description p-40-50">
+          <section class="project-description p-40-50">
             <p x-text="project?.description"></p>
           </section>
         </div>
@@ -83,8 +83,8 @@
 
         <!-- Deatils -->
         <div class="container container-100">
-          <section class="details p-40-50">
-            <div class="details-1">
+          <section class="project-details p-40-50">
+            <div class="project-details-1">
 
               <template x-if="project?.supplier?.length">
                 <div>
@@ -100,61 +100,67 @@
 
               <p>
                 <span x-text="project?.generalDesigner?.name ? 'Генпроектувальник: ' : ''"></span>
-                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank" alt="">
+                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank"
+                    alt="" class="project-link">
                     <span x-text="project?.generalDesigner?.name"></span>
                   </a></span>
               </p>
 
-              <div class="pdf-link">
-                <a x-show="project?.linkDocuments" :href="project?.linkDocuments" target="_blank" alt="">
+              <div class="project-pdf-link">
+                <a x-show="project?.linkDocuments" :href="project?.linkDocuments" target="_blank" alt="" class="project-link">
                   <img src="/images/pdf_icon.jpg" width="30px" />
                   <span>Паспорт об'єкта</span>
                 </a>
               </div>
             </div>
 
-            <div class="details-2">
+            <div class="project-details-2">
               <p x-text="'Код категорії: ' + project?.consequenceClass"></p>
               <p x-text="'Конструктив: ' + project?.constructive"></p>
             </div>
 
-            <div class="details-3">
+            <div class="project-details-3">
               <p x-show="project?.award" x-text="'Нагороди: ' + project?.award"></p>
             </div>
           </section>
         </div>
 
         <!--Web and Gallery-->
-        <div class="container container-100 light-grey" x-show="project?.siteUrl || project?.photo?.length">
-          <section class="website p-40-50">
-            <a x-show="project?.siteUrl" :href="project?.siteUrl">
+        <div class="container container-100 project-light-grey p-40-50" x-show="project?.siteUrl || project?.photo?.length">
+          <section class="project-website">
+            <a x-show="project?.siteUrl" :href="project?.siteUrl" class="project-link-white">
               Перейти на сайт: <span x-text="project?.siteUrl"></span>
             </a>
 
             <!-- Gallery -->
 
 
-            <section class="gallery" x-show="project?.photo?.length">
-              <div class="gallery-wrapper">
-                <button @click="galleryData.prev()" class="arrow left" x-show="project?.photo?.length > 1 && galleryData?.activeIndex !== 0">&lt;</button>
+            <section class="project-gallery" x-show="project?.photo?.length">
+              <div class="project-gallery-wrapper">
+                <button @click="galleryData.prev()" class="project-arrow left"
+                  x-show="(galleryData.isMobile && galleryData.photos.length > 1)">
+                  &lt;
+                </button>
 
-                <div class="gallery-track" x-ref="track">
+                <div class="project-gallery-track" x-ref="track">
                   <template x-for="(img, index) in galleryData.photos" :key="index">
-                    <img class="thumbnail" :src="img" :class="{'active': index === galleryData.activeIndex}"
+                    <img class="project-thumbnail" :src="img" :class="{'active': index === galleryData.activeIndex}"
                       @click="galleryData.openModal(img)" />
                   </template>
                 </div>
 
-                <button @click="galleryData.next()" class="arrow right"
-                  x-show="project?.photo?.length > 1 && galleryData?.activeIndex < (project?.photo?.length -1)">&gt;</button>
+                <button @click="galleryData.next()" class="project-arrow right"
+                  x-show="(galleryData.isMobile && galleryData.photos.length > 1)">&gt;</button>
               </div>
 
               <template x-if="galleryData.activeImage">
-                <div class="modal" @click="galleryData.closeModal()">
-                  <div class="image-wrapper">
-                    <button @click.stop = 'galleryData.prev()' class="arrow left" x.show="project?.photo?.length > 1">&lt;</button>
+                <div class="project-modal" @click="galleryData.closeModal()">
+                  <div class="project-image-wrapper">
+                    <button @click.stop='galleryData.prev()' class="project-arrow left"
+                      x.show="project?.photo?.length > 1">&lt;</button>
                     <img :src="galleryData.activeImage" />
-                    <button @click.stop = 'galleryData.next()' class="arrow right" x.show="project?.photo?.length > 1">&gt;</button>
+                    <button @click.stop='galleryData.next()' class="project-arrow right"
+                      x.show="project?.photo?.length > 1">&gt;</button>
                   </div>
                 </div>
               </template>
@@ -168,12 +174,12 @@
         <!-- Partners -->
         <template x-if="project?.partners?.length">
           <div class="container container-100">
-            <section class="partners p-40-50">
+            <section class="project-partners p-40-50">
               <h3>Партнери</h3>
 
               <template x-for="p in project.partners" :key="p._id">
-                <div class="partners-items">
-                  <a x-show="p.link" :href="p.link" target="_blank">
+                <div class="project-partners-items">
+                  <a x-show="p.link" :href="p.link" target="_blank" class="project-link">
                     <div>
                       <img x-show="p.logo" :src="p.logo" />
                       <span x-text="p.name"></span>
@@ -186,9 +192,9 @@
         </template>
     </section>
 
-    
+
     <load src="./src/partials/projects-preview.html" />
-      <load src="./src/partials/leaflet.html" />
+    <load src="./src/partials/leaflet.html" />
 
   </main>
 
