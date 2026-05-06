@@ -1,5 +1,9 @@
 @import "../components/videoModal.css";
 
+.video-main-title {
+  text-align: center;
+}
+
 .video-page {
   text-align: center;
 }
