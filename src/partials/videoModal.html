@@ -21,7 +21,7 @@
       <template x-if="$store.videos.isItemOpened && $store.videos.openedVideo">
         <iframe
           class="v-modal-iframe"
-          :src="$store.videos.openedVideo.videoUrl"
+          :src="$store.videos.embedUrl"
           frameborder="0"
           allow="autoplay; encrypted-media"
           allowfullscreen

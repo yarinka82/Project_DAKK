@@ -12,6 +12,27 @@ export const videoStore: VideoStore = {
     return this.items.find((item) => item._id === this.openedItemId) || null;
   },
 
+  get embedUrl() {
+    if (!this.openedVideo?.videoUrl) return "";
+    try {
+      const url = new URL(this.openedVideo.videoUrl);
+      if (url.hostname === "www.youtube.com" && url.pathname === "/watch") {
+        const videoId = url.searchParams.get("v");
+        return videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+      }
+      if (
+        url.hostname === "drive.google.com" &&
+        url.pathname.includes("/view")
+      ) {
+        return this.openedVideo.videoUrl.replace("/view", "/preview");
+      }
+      return this.openedVideo.videoUrl;
+    } catch (error) {
+      console.error("Invalid video URL:", this.openedVideo.videoUrl, error);
+      return "";
+    }
+  },
+
   getVideos() {
     return this.items;
   },

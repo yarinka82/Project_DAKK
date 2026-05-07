@@ -15,6 +15,7 @@ export interface VideoStore {
   openedItemId: string | null;
 
   readonly openedVideo: Video | null;
+  readonly embedUrl: string;
 
   getVideos: () => Video[] | [];
   openModal: (id: string) => void;
