@@ -1,0 +1,33 @@
+<section
+  class="contactUs"
+  x-data="{show: false, actionsOpen: false}"
+  x-cloak
+  x-show="show"
+  x-init="const btnShow = () => { if (window.scrollY >=200) { show=true; window.removeEventListener('scrol', btnShow);}};window.addEventListener('scroll', btnShow); "
+>
+  <button class="btn-contact" @click="actionsOpen=!actionsOpen">
+    <svg width="35" height="30">
+      <use xlink:href="/images/sprite.svg#contactsUs"></use>
+    </svg>
+  </button>
+  <div class="actions" x-show="actionsOpen" @click.outside="actionsOpen=false">
+    <p class="txtUs">Виберіть канал зв'язку</p>
+    <button class="close" @click="actionsOpen=false">
+      <svg width="35" height="30">
+        <use xlink:href="/images/sprite.svg#x">Звя'затися з нами</use>
+      </svg>
+    </button>
+    <a href="https://t.me/yarinaVg" @click="actionsOpen=false">
+      <svg width="35" height="30">
+        <use xlink:href="/images/sprite.svg#telegram"></use>
+      </svg>
+      Телеграм
+    </a>
+    <a href="mailto: lala@gmail.com" @click="actionsOpen=false">
+      <svg width="35" height="30">
+        <use xlink:href="/images/sprite.svg#email"></use>
+      </svg>
+      Емайл
+    </a>
+  </div>
+</section>

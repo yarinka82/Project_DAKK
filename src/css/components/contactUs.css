@@ -1,0 +1,77 @@
+.contactUs {
+  display: flex;
+  position: fixed;
+  left: 10px;
+  bottom: 10%;
+  z-index: 10000000;
+}
+
+.btn-contact {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: var(--clr-bg-dark);
+  border: 1px solid var(--clr-divider);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  bottom: 0;
+  left: 54px;
+  padding: 20px;
+  background-color: var(--clr-bg-dark);
+  border-radius: 24px;
+  border: 2px solid var(--clr-white);
+}
+
+.txtUs {
+  text-align: center;
+  font-size: var(--fs-small);
+}
+
+.actions a,
+button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  padding-inline: 10px;
+  background-color: var(--clr-divider);
+  color: var(--clr-text-main);
+  text-decoration: none;
+}
+
+.contactUs .close {
+  width: auto;
+  height: auto;
+  padding: 0;
+  position: absolute;
+  width: 18px;
+  top: 0;
+  right: 12px;
+  background-color: transparent;
+  color: var(--clr-white);
+  font-size: 20px;
+  transform: rotate(0);
+  transition: transform var(--transition);
+
+  &:hover {
+    stroke: rgb(240, 27, 27);
+    transform: rotate(180deg);
+  }
+}
+
+.close svg {
+  stroke: white;
+  &:hover {
+    stroke: rgb(240, 27, 27);
+    transform: rotate(180deg);
+  }
+}
