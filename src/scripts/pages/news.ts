@@ -12,6 +12,7 @@ const newsSectionEl = document.querySelector(".section-news");
 
 export const newsStore: NewsStore = {
   items: [],
+  isAllDownloaded: false,
   page: { current: 0, pageLength: 10 },
   isItemOpened: false,
   openedItemId: null,
@@ -35,25 +36,54 @@ export const newsStore: NewsStore = {
   setPublicationStatus(isOpened: boolean) {
     this.isItemOpened = isOpened;
   },
+  getIsAllDownloaded() {
+    return this.isAllDownloaded;
+  },
+  setIsAllDownloaded(bool: boolean) {
+    this.isAllDownloaded = bool;
+  },
+  getCurrentPage() {
+    return this.page.current;
+  },
+  setCurrentPage(num: number) {
+    this.page.current = num;
+  },
+  getPageLength() {
+    return this.page.pageLength;
+  },
 };
 
 export function init() {
   initNewsStore();
+  loadMore();
+}
+
+export function loadMore() {
   const newsStore = Alpine.store("news") as NewsStore;
-  newsStore.isLoading = false;
+
+  if (newsStore.isAllDownloaded) return;
+  if (newsStore.isLoading) return;
+
+  newsStore.isLoading = true;
+
+  const currentPage = newsStore.getCurrentPage();
+  const itemsToLoad = newsStore.getPageLength();
 
   fetchData({
     query: NEWS_QUERY,
     options: {
-      start: 0,
-      end: 10,
+      start: currentPage * itemsToLoad,
+      end: (currentPage + 1) * itemsToLoad - 1,
     },
   })
     .then((data: any) => {
-      console.log("🚀 ~ init ~ data:", data);
-      // newsStore.setNews(data.news);
-      // // !! Temporary data
-      newsStore.setNews(newsTmpData);
+      // !! Temporary data
+      //newsStore.setNews(newsTmpData);
+
+      newsStore.setNews(data.news);
+      newsStore.setIsAllDownloaded(newsStore.items.length === data.total);
+      newsStore.setCurrentPage(currentPage + 1);
+
       validationNew();
     })
     .catch((err) => {

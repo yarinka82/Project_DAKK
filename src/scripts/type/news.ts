@@ -11,6 +11,7 @@ export interface New {
 
 export interface NewsStore {
   items: New[] | [];
+  isAllDownloaded: boolean;
   page: {
     current: number;
     pageLength: number;
@@ -21,9 +22,14 @@ export interface NewsStore {
   isLoading: boolean;
 
   getNews: () => New[] | [];
-  setNews: ([]) => void;
+  setNews: (arr: New[]) => void;
   getCurrentPublication: () => string | null;
   setCurrentPublication: (id: string | null) => void;
   getPublicationStatus: () => boolean;
   setPublicationStatus: (isOpened: boolean) => void;
+  getIsAllDownloaded: () => boolean;
+  setIsAllDownloaded: (bool: boolean) => void;
+  getCurrentPage: () => number;
+  setCurrentPage: (num: number) => void;
+  getPageLength: () => number;
 }
