@@ -9,6 +9,7 @@ import {
   setPublication,
   newsStore,
   cutTextFn,
+  loadMore,
 } from "../scripts/pages/news";
 
 export function initNewsStore() {
@@ -20,5 +21,6 @@ export function initNewsStore() {
     setPublication,
     getPost,
     resetPost,
+    loadMore,
   }));
 }
