@@ -77,7 +77,7 @@
           </section>
         </div>
 
-        <div class="divider">
+        <div class="project-divider">
           <p></p>
         </div>
 
@@ -89,44 +89,57 @@
               <template x-if="project?.supplier?.length">
                 <div>
                   <p>
-                    <span x-text="project?.supplier.length > 1 ? 'Замовники: ' : 'Замовник: '"></span>
-                    <span x-text="project?.supplier.map(s => s.name).join(', ')"></span>
+                    <span class="project-details-header"
+                      x-text="project?.supplier.length == 1 ? 'Замовник: ' : 'Замовники: '"></span>
+                    <span x-show="project?.supplier.length == 1" x-text="project?.supplier[0].name"></span>
+                    <!-- <span x-text="project?.supplier.map(s => s.name).join(', ')"></span> -->
+                    <span class="project-supplier-list" x-show="project?.supplier.length > 1">
+                      <template x-for="s in project.supplier">
+                        <li x-text="s.name"></li>
+                      </template>
+                    </span>
                   </p>
-                  <!-- <template x-for="s in project.supplier">
-                  <p x-text="s.name"></p>
-                </template> -->
                 </div>
               </template>
 
               <p>
-                <span x-text="project?.generalDesigner?.name ? 'Генпроектувальник: ' : ''"></span>
-                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank"
-                    alt="" class="project-link">
+                <span class="project-details-header"
+                  x-text="project?.generalDesigner?.name ? 'Генпроектувальник: ' : ''"></span>
+                <span><a x-show="project?.generalDesigner" :href="project?.generalDesigner?.link" target="_blank" alt=""
+                    class="project-link">
                     <span x-text="project?.generalDesigner?.name"></span>
                   </a></span>
               </p>
 
-              <div class="project-pdf-link">
-                <a x-show="project?.linkDocuments" :href="project?.linkDocuments" target="_blank" alt="" class="project-link">
-                  <img src="/images/pdf_icon.jpg" width="30px" />
-                  <span>Паспорт об'єкта</span>
-                </a>
-              </div>
+
             </div>
 
             <div class="project-details-2">
-              <p x-text="'Код категорії: ' + project?.consequenceClass"></p>
-              <p x-text="'Конструктив: ' + project?.constructive"></p>
+              <p>
+                <span class="project-details-header">Код категорії: </span>
+                <span x-text="project?.consequenceClass"></span>
+              </p>
+              <p>
+                <span class="project-details-header">Конструктив: </span>
+                <span x-text="project?.constructive"></span>
+              </p>
             </div>
 
             <div class="project-details-3">
-              <p x-show="project?.award" x-text="'Нагороди: ' + project?.award"></p>
+              <p class="project-pdf-link">
+                <span class="project-details-header">Паспорт об'єкта:</span>
+                <a x-show="project?.linkDocuments" :href="project?.linkDocuments" target="_blank" alt=""
+                  class="project-link">
+                  <img src="/images/pdf_icon.jpg" width="30px" />
+                </a>
+              </p>
             </div>
           </section>
         </div>
 
         <!--Web and Gallery-->
-        <div class="container container-100 project-light-grey p-40-50" x-show="project?.siteUrl || project?.photo?.length">
+        <div class="container container-100 project-light-grey p-40-50"
+          x-show="project?.siteUrl || project?.photo?.length">
           <section class="project-website">
             <a x-show="project?.siteUrl" :href="project?.siteUrl" class="project-link-white">
               Перейти на сайт: <span x-text="project?.siteUrl"></span>
