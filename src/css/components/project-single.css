@@ -109,12 +109,23 @@
     flex: 1 1 0px;
 }
 
+.project-details-header {
+    font-weight: var(--fw-semibold);
+}
+
+.project-supplier-list {
+    list-style: none;
+}
+
 .project-pdf-link a {
-    display: inline-flex;
     align-items: center;
     gap: 8px;
 
     text-decoration: none;
+}
+
+.project-details img {
+    padding-top: 0.3rem;
 }
 
 .project-website {
