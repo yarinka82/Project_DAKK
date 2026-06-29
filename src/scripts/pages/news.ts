@@ -2,7 +2,6 @@ import Alpine from "alpinejs";
 import { fetchData } from "../core/api";
 import { NEWS_QUERY } from "../service/query";
 import type { NewsStore } from "../type/news";
-import { newsTmpData } from "../../data/news/news-tmp";
 import { initNewsStore } from "../../stores/initNewsStore";
 import { getUrl, validationNew } from "./news-single";
 
@@ -13,7 +12,7 @@ const newsSectionEl = document.querySelector(".section-news");
 export const newsStore: NewsStore = {
   items: [],
   isAllDownloaded: false,
-  page: { current: 0, pageLength: 10 },
+  page: { current: 0, pageLength: 6 },
   isItemOpened: false,
   openedItemId: null,
   isLoading: false,
@@ -22,7 +21,7 @@ export const newsStore: NewsStore = {
     return this.items;
   },
   setNews(newsArr) {
-    this.items = [...newsArr];
+    this.items = [...this.items, ...newsArr];
   },
   getCurrentPublication() {
     return this.openedItemId;
@@ -77,11 +76,12 @@ export function loadMore() {
     },
   })
     .then((data: any) => {
-      // !! Temporary data
-      //newsStore.setNews(newsTmpData);
-
       newsStore.setNews(data.news);
-      newsStore.setIsAllDownloaded(newsStore.items.length === data.total);
+
+      if (newsStore.items.length >= data.total) {
+        newsStore.setIsAllDownloaded(true);
+      }
+
       newsStore.setCurrentPage(currentPage + 1);
 
       validationNew();
