@@ -21,6 +21,7 @@
   "dependencies": {
     "@alpinejs/intersect": "^3.15.8",
     "@sanity/client": "^7.17.0",
+    "all": "^0.0.0",
     "alpinejs": "^3.15.8",
     "leaflet": "^1.9.4",
     "leaflet-gesture-handling": "^1.2.2"

@@ -43,4 +43,12 @@ export const aboutData = {
     uk: "«Якісний проект — це насамперед надійність. Це усталені потоки розробки та логічна структура — як підприємства, так і робочої документації».",
     en: "“A high-quality project is, above all, reliability. These are established development flows and a logical structure — both for the enterprise and the working documentation.”",
   },
+  heroImages: [
+    { src: "/src/img/about/about-1.jpg", alt: "Проект ДАКК 1" },
+    { src: "/src/img/about/about-2.jpg", alt: "Проект ДАКК 2" },
+    { src: "/src/img/about/about-3.jpg", alt: "Проект ДАКК 3" },
+    { src: "/src/img/about/about-4.jpg", alt: "Проект ДАКК 4" },
+    { src: "/src/img/about/about-5.jpg", alt: "Проект ДАКК 5" },
+    { src: "/src/img/about/about-6.jpg", alt: "Проект ДАКК 6" },
+  ],
 };
