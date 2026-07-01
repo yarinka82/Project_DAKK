@@ -113,7 +113,7 @@ header {
 .logo-text {
   font-family: var(--font-headers);
   font-weight: var(--fw-bold);
-  font-size: 3.5rem; /* Adjust size as needed */
+  font-size: 2rem;
   color: var(--clr-white);
   text-transform: uppercase;
   display: block;
@@ -122,6 +122,10 @@ header {
   filter: blur(10px);
 
   animation: dakkReveal 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+  @media (min-width: 768px) {
+    font-size: 3.5rem;
+  }
 }
 
 @keyframes dakkReveal {
