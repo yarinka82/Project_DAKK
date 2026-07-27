@@ -7,7 +7,7 @@ header {
   top: 0;
   width: 100%;
   z-index: 3000;
-  background-color: var(--clr-bg-dark);
+  background-color: var(--clr-bg-blue);
 }
 
 .header-container {
